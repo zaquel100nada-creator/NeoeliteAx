@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AX CARDS | Painel de Gestão</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+        :root {
+            --bg-deep: #030305;
+            --card-dark: #0b0b0f;
+            --border-card: #221c18;
+            --accent-orange: #ff7700;
+            --accent-cyan: #ff9933;
+            --text-main: #f4f4f5;
+            --text-muted: #888892;
+            --danger: #ff3300;
+            --success: #00ff99;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 119, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(255, 153, 51, 0.05) 0%, transparent 40%);
+            padding: 16px;
+        }
+
+        .container {
+            background: var(--card-dark);
+            border: 1px solid var(--border-card);
+            padding: 28px;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 119, 0, 0.05);
+        }
+
+        .brand-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: white;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .brand-title span { color: var(--accent-orange); text-shadow: 0 0 10px rgba(255, 119, 0, 0.5); }
+        .brand-title .orange-text { color: var(--accent-orange); text-shadow: 0 0 10px rgba(255, 119, 0, 0.5); }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-align: center;
+        }
+
+        .input-group { margin-bottom: 16px; }
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            background: #050508;
+            border: 1px solid var(--border-card);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 8px rgba(255, 119, 0, 0.3);
+        }
+
+        .btn-action {
+            width: 100%;
+            background: var(--accent-orange);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.1s, box-shadow 0.2s;
+            margin-top: 8px;
+            box-shadow: 0 4px 15px rgba(255, 119, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-action:hover {
+            filter: brightness(1.15);
+            box-shadow: 0 0 20px rgba(255, 119, 0, 0.6);
+        }
+
+        .btn-action.secondary {
+            background: transparent;
+            border: 1px solid var(--accent-orange);
+            color: var(--accent-orange);
+            box-shadow: none;
+        }
+
+        .btn-action.secondary:hover {
+            background: rgba(255, 119, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 119, 0, 0.4);
+        }
+
+        .hidden { display: none !important; }
+
+        #toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #0b0b0f;
+            border: 1px solid var(--border-card);
+            border-left: 4px solid var(--accent-orange);
+            padding: 14px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.85rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            display: none;
+            z-index: 999;
+        }
+
+        .card-preview {
+            background: #050508;
+            border: 1px solid var(--accent-orange);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 12px;
+            text-align: center;
+            box-shadow: inset 0 0 10px rgba(255, 119, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tela 1: Login com Google -->
+    <div class="container" id="authBox">
+        <h1 class="brand-title"><span class="orange-text">AX</span> <span>CARDS</span></h1>
+        <p class="subtitle">Acesso Restrito</p>
+        
+        <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 24px;">
+            Entre de forma rápida e segura utilizando sua conta Google.
+        </p>
+
+        <button class="btn-action" onclick="loginWithGoogle()">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M21.35 11.1h-9.17v2.73h6.51c-.33 1.82-1.78 3.18-3.65 3.18-2.24 0-4.06-1.82-4.06-4.06s1.82-4.06 4.06-4.06c1.03 0 1.97.38 2.7 1.01l2.04-2.04c-1.35-1.22-3.15-1.97-4.74-1.97-4.14 0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5c4.34 0 7.22-3.05 7.22-7.34 0-.5-.05-1.01-.14-1.48z"/></svg>
+            Entrar com Google
+        </button>
+    </div>
+
+    <!-- Tela 2: Registro de Nick (Caso seja o primeiro acesso) -->
+    <div class="container hidden" id="nicknameBox">
+        <h1 class="brand-title"><span class="orange-text">QUASE</span> <span>PRONTO</span></h1>
+        <p class="subtitle">Defina seu Nickname</p>
+
+        <div class="input-group">
+            <label>Seu Nick no Jogo / Sistema</label>
+            <input type="text" id="setupNick" placeholder="Ex: Tatsu">
+        </div>
+
+        <button class="btn-action" onclick="saveNickname()">Salvar e Continuar</button>
+    </div>
+
+    <!-- Tela 3: Escolha Inicial: Criar ou Entrar em Time -->
+    <div class="container hidden" id="teamChoiceBox">
+        <h1 class="brand-title"><span class="orange-text">AX</span> <span>CARDS</span></h1>
+        <p class="subtitle" id="choiceWelcome">Bem-vindo, Jogador</p>
+        
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; text-align: center;">Você ainda não pertence a nenhum time. Escolha uma opção abaixo:</p>
+        
+        <button class="btn-action" style="margin-bottom: 12px;" onclick="showView('createTeamView')">Criar Time</button>
+        <button class="btn-action secondary" onclick="showView('joinTeamView')">Entrar em Time</button>
+
+        <div style="margin-top: 24px; text-align: center;">
+            <button class="btn-action secondary" style="border-color: var(--danger); color: var(--danger); font-size: 0.75rem; padding: 8px;" onclick="logout()">Sair da Conta</button>
+        </div>
+    </div>
+
+    <!-- Tela 4: Criar Time -->
+    <div class="container hidden" id="createTeamView">
+        <h1 class="brand-title" style="font-size: 1.4rem;">CRIAR <span>TIME</span></h1>
+        <p class="subtitle">Painel do Líder / Dono</p>
+
+        <div class="input-group">
+            <label>Nome do Time</label>
+            <input type="text" id="newTeamName" placeholder="Ex: Neo Elite">
+        </div>
+        <div class="input-group">
+            <label>URL do Logo do Time</label>
+            <input type="text" id="newTeamLogo" placeholder="https://i.imgur.com/pGVJwj4.jpg">
+        </div>
+        <div class="input-group">
+            <label>Sua Função no Time (Líder)</label>
+            <input type="text" id="leaderRole" placeholder="Ex: Suporte">
+        </div>
+
+        <button class="btn-action" onclick="createTeamAction()">Confirmar e Criar</button>
+        <button class="btn-action secondary" style="margin-top: 8px;" onclick="showView('teamChoiceBox')">Voltar</button>
+    </div>
+
+    <!-- Tela 5: Entrar em Time -->
+    <div class="container hidden" id="joinTeamView">
+        <h1 class="brand-title" style="font-size: 1.4rem;">ENTRAR EM <span>TIME</span></h1>
+        <p class="subtitle">Defina sua função e insira o ID</p>
+
+        <div class="input-group">
+            <label>Sua Função</label>
+            <input type="text" id="joinRole" placeholder="Ex: Suporte / Granadeiro">
+        </div>
+        <div class="input-group">
+            <label>ID do Time</label>
+            <input type="text" id="joinTeamId" placeholder="Ex: AX-T9K2L">
+        </div>
+
+        <button class="btn-action" onclick="joinTeamAction()">Entrar no Time</button>
+        <button class="btn-action secondary" style="margin-top: 8px;" onclick="showView('teamChoiceBox')">Voltar</button>
+    </div>
+
+    <!-- Dashboard Completa -->
+    <div class="container hidden" id="dashboard">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div>
+                <span style="font-size: 0.65rem; color: var(--accent-orange); text-transform: uppercase; font-weight: 700; letter-spacing: 1px;" id="userBadgeRole">FUNÇÃO</span>
+                <h2 id="dashNick" style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: white;">NICK</h2>
+            </div>
+            <div id="ownerTagContainer"></div>
+        </div>
+
+        <div style="background: #050508; border: 1px solid var(--border-card); padding: 14px; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
+            <img id="dashTeamLogoImg" src="" alt="Logo" style="width: 48px; height: 48px; border-radius: 6px; object-fit: cover; border: 1px solid var(--accent-orange); display: none;">
+            <div>
+                <p style="font-size: 0.75rem; color: var(--text-muted);">TIME ATUAL:</p>
+                <h3 id="dashTeamName" style="color: var(--accent-orange); font-family: 'Orbitron', sans-serif; font-size: 1rem;">NOME DO TIME</h3>
+                <p id="dashTeamIdDisplay" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;"></p>
+            </div>
+        </div>
+
+        <!-- Painel de Controle do Líder (Fixo na parte superior) -->
+        <div id="leaderControls" class="hidden" style="margin-bottom: 16px; background: rgba(255,119,0,0.05); border: 1px solid var(--accent-orange); padding: 12px; border-radius: 8px;">
+            <p style="font-size: 0.75rem; color: var(--accent-orange); text-transform: uppercase; font-weight: bold; margin-bottom: 8px;">Painel de Controle do Líder</p>
+            <button class="btn-action secondary" style="font-size: 0.75rem; padding: 10px; margin: 0;" onclick="showToast('Painel administrativo pronto!')">Gerenciar Metas e Estatísticas</button>
+        </div>
+
+        <!-- Cards da Equipe -->
+        <div style="margin-bottom: 16px;">
+            <p style="font-size: 0.75rem; color: var(--accent-orange); text-transform: uppercase; font-weight: bold; margin-bottom: 8px;">Cards da Equipe (AX Cards)</p>
+            <div id="teamCardsContainer" style="max-height: 280px; overflow-y: auto; padding-right: 4px;">
+                <!-- Carregado via script -->
+            </div>
+        </div>
+
+        <button class="btn-action secondary" style="border-color: var(--danger); color: var(--danger); box-shadow: none; margin-top: 8px;" onclick="logout()">Encerrar Sessão</button>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmYPkg0cvlcswmBOaIr5fDPjzZSiRfYJw",
+            authDomain: "neocard-79375.firebaseapp.com",
+            databaseURL: "https://neocard-79375-default-rtdb.firebaseio.com",
+            projectId: "neocard-79375",
+            storageBucket: "neocard-79375.firebasestorage.app",
+            messagingSenderId: "623626301171",
+            appId: "1:623626301171:web:f80196b68060507a3ed186"
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+        function showToast(msg, isError = false) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.borderLeftColor = isError ? 'var(--danger)' : 'var(--accent-orange)';
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 3500);
+        }
+
+        function showView(viewId) {
+            ['authBox', 'nicknameBox', 'teamChoiceBox', 'createTeamView', 'joinTeamView', 'dashboard'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+        }
+
+        function loginWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then(result => {
+                    showToast("Login com Google realizado!");
+                })
+                .catch(e => {
+                    showToast("Erro no login: " + e.message, true);
+                });
+        }
+
+        function saveNickname() {
+            const nick = document.getElementById('setupNick').value.trim();
+            const user = firebase.auth().currentUser;
+
+            if(!nick) {
+                showToast("Por favor, digite seu Nick.", true);
+                return;
+            }
+
+            firebase.database().ref('users/' + user.uid).update({
+                nickname: nick,
+                email: user.email,
+                teamId: null,
+                role: null,
+                isOwner: false,
+                createdAt: firebase.database.ServerValue.TIMESTAMP
+            }).then(() => {
+                showToast("Nick salvo com sucesso!");
+                checkUserSession(user);
+            });
+        }
+
+        function createTeamAction() {
+            const teamName = document.getElementById('newTeamName').value.trim();
+            const teamLogo = document.getElementById('newTeamLogo').value.trim();
+            const role = document.getElementById('leaderRole').value.trim();
+            const user = firebase.auth().currentUser;
+
+            if(!teamName || !role) {
+                showToast("Preencha o nome do time e sua função.", true);
+                return;
+            }
+
+            const teamId = 'AX-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+            const updates = {};
+
+            updates['teams/' + teamId] = {
+                name: teamName,
+                logo: teamLogo,
+                leaderUid: user.uid,
+                createdAt: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            updates['users/' + user.uid + '/teamId'] = teamId;
+            updates['users/' + user.uid + '/role'] = role;
+            updates['users/' + user.uid + '/isOwner'] = true;
+
+            firebase.database().ref().update(updates)
+                .then(() => {
+                    showToast("Time criado com sucesso!");
+                    checkUserSession(user);
+                })
+                .catch(e => showToast("Erro ao criar time: " + e.message, true));
+        }
+
+        function joinTeamAction() {
+            const role = document.getElementById('joinRole').value.trim();
+            const teamId = document.getElementById('joinTeamId').value.trim().toUpperCase();
+            const user = firebase.auth().currentUser;
+
+            if(!role || !teamId) {
+                showToast("Preencha sua função e o ID do time.", true);
+                return;
+            }
+
+            firebase.database().ref('teams/' + teamId).once('value').then(snap => {
+                if(!snap.exists()) {
+                    showToast("Time não encontrado com esse ID.", true);
+                    return;
+                }
+
+                const updates = {};
+                updates['users/' + user.uid + '/teamId'] = teamId;
+                updates['users/' + user.uid + '/role'] = role;
+                updates['users/' + user.uid + '/isOwner'] = false;
+
+                firebase.database().ref().update(updates).then(() => {
+                    showToast("Você entrou no time com sucesso!");
+                    checkUserSession(user);
+                });
+            });
+        }
+
+        firebase.auth().onAuthStateChanged(u => {
+            if(u) {
+                checkUserSession(u);
+            } else {
+                showView('authBox');
+            }
+        });
+
+        function checkUserSession(user) {
+            const userRef = firebase.database().ref('users/' + user.uid);
+            userRef.once('value').then(snap => {
+                const data = snap.val();
+                
+                // Se o usuário logou com Google mas ainda não tem registro ou nick no banco
+                if(!data || !data.nickname) {
+                    showView('nicknameBox');
+                    return;
+                }
+
+                const nick = data.nickname;
+
+                // Se não tem time, mostra a tela de escolher criar ou entrar
+                if(!data.teamId) {
+                    document.getElementById('choiceWelcome').innerText = `Bem-vindo, ${nick}`;
+                    showView('teamChoiceBox');
+                } else {
+                    // Já tem time, vai para o dashboard
+                    showView('dashboard');
+                    document.getElementById('dashNick').innerText = nick;
+                    document.getElementById('userBadgeRole').innerText = data.role || 'Membro';
+
+                    const tagBox = document.getElementById('ownerTagContainer');
+                    const leaderControls = document.getElementById('leaderControls');
+                    
+                    if(data.isOwner) {
+                        tagBox.innerHTML = '<span style="background:var(--accent-orange); color:#000; font-size:0.65rem; padding:4px 8px; border-radius:4px; font-weight:900; font-family:Orbitron;">DONO / LÍDER</span>';
+                        leaderControls.classList.remove('hidden');
+                    } else {
+                        tagBox.innerHTML = '';
+                        leaderControls.classList.add('hidden');
+                    }
+
+                    // Carrega os dados do time e logo
+                    firebase.database().ref('teams/' + data.teamId).once('value').then(teamSnap => {
+                        const teamData = teamSnap.val() || {};
+                        document.getElementById('dashTeamName').innerText = teamData.name || 'TIME';
+                        document.getElementById('dashTeamIdDisplay').innerText = `ID do Time: ${data.teamId}`;
+                        
+                        const logoImg = document.getElementById('dashTeamLogoImg');
+                        if(teamData.logo) {
+                            logoImg.src = teamData.logo;
+                            logoImg.style.display = 'block';
+                        } else {
+                            logoImg.style.display = 'none';
+                        }
+                    });
+
+                    // Carrega os cards de todos os membros de forma segura (sem Erro 18)
+                    firebase.database().ref('users').once('value').then(allUsersSnap => {
+                        const container = document.getElementById('teamCardsContainer');
+                        container.innerHTML = '';
+
+                        allUsersSnap.forEach(childSnap => {
+                            const member = childSnap.val();
+                            if(member.teamId === data.teamId) {
+                                const memberNick = member.nickname || 'Jogador';
+                                const memberRole = member.role || 'Membro';
+
+                                const cardDiv = document.createElement('div');
+                                cardDiv.className = 'card-preview';
+                                cardDiv.innerHTML = `
+                                    <span style="font-size: 0.65rem; color: var(--accent-orange); font-weight: bold; text-transform: uppercase;">AX CARD • ${member.isOwner ? 'LÍDER' : 'MEMBRO'}</span>
+                                    <h4 style="font-family: 'Orbitron', sans-serif; font-size: 1rem; margin: 4px 0; color: white;">${memberNick}</h4>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted);">${memberRole}</p>
+                                    <div style="display: flex; justify-content: space-around; margin-top: 10px; font-size: 0.75rem;">
+                                        <span>Kills: <b>${member.kills || 0}</b></span>
+                                        <span>Dano: <b>${member.damage || 0}</b></span>
+                                        <span>Pontos: <b>${member.points || '0.0'}</b></span>
+                                    </div>
+                                `;
+                                container.appendChild(cardDiv);
+                            }
+                        });
+                    });
+                }
+            }).catch(err => {
+                console.error("Erro ao carregar dados:", err);
+            });
+        }
+
+        function logout() {
+            firebase.auth().signOut().then(() => {
+                showToast("Sessão encerrada.");
+                showView('authBox');
+            });
+        }
+    </script>
+</body>
+</html>
