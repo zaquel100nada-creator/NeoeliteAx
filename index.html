@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEO ELITE PRO | Painel de Gestão Free Fire</title>
+    <title>NEO ELITE CARDS | Sistema KPDV & Cards Free Fire</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-main: #0a0b0e;
-            --bg-card: #12141c;
-            --bg-input: #1a1d26;
-            --primary: #7c3aed;
-            --primary-hover: #6d28d9;
-            --accent: #06b6d4;
+            --bg-main: #06070a;
+            --bg-card: #0f111a;
+            --bg-input: #161925;
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --accent: #00f2fe;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --danger: #ef4444;
             --success: #10b981;
-            --border: #2b2f3d;
-            --radius: 12px;
+            --border: #242938;
+            --radius: 16px;
+
+            /* Raridades */
+            --comum: #9ca3af;
+            --raro: #3b82f6;
+            --epico: #a855f7;
+            --lendario: #f59e0b;
+            --mitico: #ef4444;
         }
 
         * {
@@ -33,9 +39,10 @@
             background-color: var(--bg-main);
             color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .highlight { color: var(--primary); }
+        .highlight { color: var(--accent); }
         .positive { color: var(--success) !important; }
         .negative { color: var(--danger) !important; }
         .hidden { display: none !important; }
@@ -49,10 +56,12 @@
             display: flex;
         }
 
+        /* TELA DE LOGIN */
         #auth-screen {
             justify-content: center;
             align-items: center;
             padding: 20px;
+            background: radial-gradient(circle at center, #121526 0%, #06070a 100%);
         }
         .auth-card {
             background: var(--bg-card);
@@ -62,28 +71,32 @@
             width: 100%;
             max-width: 420px;
             text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
         .logo {
             font-family: 'Orbitron', sans-serif;
             font-size: 2.2rem;
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .subtitle {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 24px;
         }
         .auth-card input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 16px;
             margin-bottom: 14px;
             background: var(--bg-input);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             color: var(--text-main);
+            font-size: 0.95rem;
         }
         .divider {
             color: var(--text-muted);
@@ -100,16 +113,21 @@
             margin-bottom: 16px;
         }
 
+        /* LAYOUT PRINCIPAL */
         #app-screen {
             flex-direction: column;
         }
         .app-header {
-            background: var(--bg-card);
+            background: rgba(15, 17, 26, 0.85);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             padding: 16px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         .header-brand {
             display: flex;
@@ -118,16 +136,17 @@
         }
         .header-brand h2 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
         }
         .badge {
             background: var(--primary);
             color: white;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             padding: 4px 8px;
             border-radius: 6px;
             text-transform: uppercase;
-            font-weight: 600;
+            font-weight: 700;
         }
         .app-nav {
             display: flex;
@@ -141,6 +160,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
+            font-size: 0.9rem;
             transition: 0.2s;
         }
         .nav-btn:hover, .nav-btn.active {
@@ -150,7 +170,7 @@
         .header-user {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             font-size: 0.9rem;
         }
         .btn-icon {
@@ -159,6 +179,7 @@
             color: var(--text-muted);
             font-size: 1.2rem;
             cursor: pointer;
+            transition: 0.2s;
         }
         .btn-icon:hover { color: var(--danger); }
 
@@ -166,6 +187,9 @@
             flex: 1;
             padding: 32px;
             overflow-y: auto;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
         }
         .view {
             display: none;
@@ -174,63 +198,25 @@
             display: block;
         }
 
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px;
-        }
-        .stat-card h3 {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-        .stat-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 800;
-        }
-        .dashboard-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-        .card-header {
-            margin-bottom: 16px;
-        }
-        .chart-container {
-            position: relative;
-            height: 280px;
-        }
-        .chart-container-radar {
-            position: relative;
-            height: 380px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
+        /* BOTÕES & AÇÕES */
         .btn {
             width: 100%;
             padding: 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
+            font-size: 0.95rem;
         }
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #6d28d9);
             color: white;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
         }
         .btn-primary:hover {
-            background: var(--primary-hover);
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
         .btn-secondary {
             background: var(--bg-input);
@@ -244,21 +230,135 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-        }
-        .filters-bar {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .filters-bar select, .filters-bar input {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 8px 12px;
-            border-radius: 8px;
+            margin-bottom: 24px;
         }
 
+        /* GALERIA DE CARDS (ESTILO FUTURISTA / FIFA UT) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 28px;
+        }
+
+        .player-card {
+            background: linear-gradient(145deg, #131722, #0b0d14);
+            border-radius: 18px;
+            border: 2px solid var(--border);
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .player-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.15);
+        }
+
+        /* Raridades bordas e glows */
+        .card-comum { border-color: var(--comum); }
+        .card-raro { border-color: var(--raro); box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+        .card-epico { border-color: var(--epico); box-shadow: 0 0 25px rgba(168, 85, 247, 0.3); }
+        .card-lendario { border-color: var(--lendario); box-shadow: 0 0 30px rgba(245, 158, 11, 0.35); }
+        .card-mitico { border-color: var(--mitico); box-shadow: 0 0 35px rgba(239, 68, 68, 0.4); }
+
+        .card-header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .card-ger-box {
+            text-align: left;
+        }
+        .card-ger {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .card-pos {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .card-rarity-badge {
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .badge-comum { background: rgba(156, 163, 175, 0.2); color: var(--comum); }
+        .badge-raro { background: rgba(59, 130, 246, 0.2); color: var(--raro); }
+        .badge-epico { background: rgba(168, 85, 247, 0.2); color: var(--epico); }
+        .badge-lendario { background: rgba(245, 158, 11, 0.2); color: var(--lendario); }
+        .badge-mitico { background: rgba(239, 68, 68, 0.2); color: var(--mitico); }
+
+        .card-avatar-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 12px auto;
+            border-radius: 50%;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 2.2rem;
+        }
+        .card-avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-player-name {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .card-stat-item {
+            text-align: center;
+        }
+        .card-stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .card-stat-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        /* TABELAS E CARDS DE SUPORTE */
+        .card-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
         .table-card {
             overflow-x: auto;
             padding: 0;
@@ -282,14 +382,16 @@
             background: rgba(255, 255, 255, 0.01);
         }
 
+        /* MODAIS */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            backdrop-filter: blur(5px);
         }
         .modal.active {
             display: flex;
@@ -300,6 +402,7 @@
         }
         .modal-content h3 {
             margin-bottom: 16px;
+            font-family: 'Orbitron', sans-serif;
         }
         .form-group {
             margin-bottom: 14px;
@@ -312,11 +415,12 @@
         }
         .form-group input, .form-group select {
             width: 100%;
-            padding: 10px;
+            padding: 10px 14px;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 8px;
             color: var(--text-main);
+            font-size: 0.95rem;
         }
         .form-row {
             display: grid;
@@ -329,61 +433,26 @@
             margin-top: 20px;
         }
 
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .settings-grid p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin: 8px 0 16px 0;
-        }
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .compare-selectors {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .compare-selectors select {
-            flex: 1;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 12px;
-            border-radius: 8px;
-        }
-        .vs-text {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
         @media(max-width: 768px) {
-            .dashboard-split { grid-template-columns: 1fr; }
             .app-header { flex-direction: column; gap: 12px; padding: 16px; }
             .app-nav { width: 100%; overflow-x: auto; padding-bottom: 4px; }
         }
     </style>
 </head>
 <body>
+
     <!-- TELA DE AUTENTICAÇÃO -->
     <div id="auth-screen" class="screen active">
         <div class="auth-card">
-            <h1 class="logo">NEO <span class="highlight">ELITE</span></h1>
-            <p class="subtitle">Plataforma Profissional de Gestão Competitiva</p>
+            <h1 class="logo">NEO ELITE</h1>
+            <p class="subtitle">Sistema de Cards & Estatísticas KPDV</p>
             <div id="auth-error" class="error-msg hidden"></div>
             <button id="btn-google-login" class="btn btn-primary">Entrar com Google</button>
             <div class="divider">ou entre com e-mail</div>
             <form id="form-email-login">
                 <input type="email" id="login-email" placeholder="E-mail" required>
                 <input type="password" id="login-password" placeholder="Senha" required>
-                <button type="submit" class="btn btn-secondary">Entrar</button>
+                <button type="submit" class="btn btn-secondary">Entrar no Sistema</button>
             </form>
         </div>
     </div>
@@ -392,93 +461,49 @@
     <div id="app-screen" class="screen">
         <header class="app-header">
             <div class="header-brand">
-                <h2>NEO <span class="highlight">ELITE</span></h2>
-                <span id="user-role-badge" class="badge">Carregando...</span>
+                <h2>NEO <span class="highlight">ELITE CARDS</span></h2>
+                <span id="user-role-badge" class="badge">Atleta</span>
             </div>
             <nav class="app-nav">
-                <button class="nav-btn active" data-target="view-dashboard">Dashboard</button>
-                <button class="nav-btn" data-target="view-stats">Estatísticas</button>
-                <button class="nav-btn" data-target="view-compare">Comparativo</button>
-                <button class="nav-btn" data-target="view-ap">Módulo AP</button>
-                <button class="nav-btn" data-target="view-audit" id="nav-audit" style="display:none;">Auditoria</button>
-                <button class="nav-btn" data-target="view-settings">Configurações</button>
+                <button class="nav-btn active" data-target="view-cards">Galeria de Cards</button>
+                <button class="nav-btn" data-target="view-kpdv">Gestão KPDV</button>
+                <button class="nav-btn" data-target="view-admin" id="nav-admin" style="display:none;">Painel Admin</button>
             </nav>
             <div class="header-user">
-                <span id="user-display-name">Atleta</span>
+                <span id="user-display-name">Jogador</span>
                 <button id="btn-logout" class="btn-icon" title="Sair">⎋</button>
             </div>
         </header>
 
         <main class="app-content">
-            <!-- VIEW: DASHBOARD -->
-            <section id="view-dashboard" class="view active">
-                <div class="metrics-grid">
-                    <div class="card stat-card">
-                        <h3>Vitórias / Total</h3>
-                        <p class="stat-value" id="dash-winrate">0%</p>
-                    </div>
-                    <div class="card stat-card">
-                        <h3>ADR Médio</h3>
-                        <p class="stat-value" id="dash-adr">0.0</p>
-                    </div>
-                    <div class="card stat-card">
-                        <h3>Taxa Headshot</h3>
-                        <p class="stat-value" id="dash-hs">0%</p>
-                    </div>
-                    <div class="card stat-card">
-                        <h3>KAST Global</h3>
-                        <p class="stat-value" id="dash-kast">0%</p>
-                    </div>
+            <!-- VIEW: GALERIA DE CARDS -->
+            <section id="view-cards" class="view active">
+                <div class="action-bar">
+                    <h2>Plantel de Cards Ativos</h2>
+                    <button class="btn btn-primary" id="modal-player-open" style="width: auto; padding: 10px 20px;">+ Novo Jogador</button>
                 </div>
-
-                <div class="dashboard-split">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>Evolução de Desempenho (Kills / ADR)</h3>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="chartPerformance"></canvas>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>Desempenho por Mapa</h3>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="chartMaps"></canvas>
-                        </div>
-                    </div>
+                <div class="cards-grid" id="cards-container">
+                    <!-- Cards injetados via JS -->
                 </div>
             </section>
 
-            <!-- VIEW: ESTATÍSTICAS & PARTIDAS -->
-            <section id="view-stats" class="view">
+            <!-- VIEW: GESTÃO KPDV -->
+            <section id="view-kpdv" class="view">
                 <div class="action-bar">
-                    <h2>Gestão de Partidas e Roster</h2>
-                    <button class="btn btn-primary" id="modal-match-open">+ Registrar Partida</button>
+                    <h2>Atualização de Partidas e KPDV</h2>
+                    <button class="btn btn-primary" id="modal-kpdv-open" style="width: auto; padding: 10px 20px;">+ Registrar Partida KPDV</button>
                 </div>
-                <div class="filters-bar">
-                    <select id="filter-map">
-                        <option value="">Todos os Mapas</option>
-                        <option value="Bermuda">Bermuda</option>
-                        <option value="Purgatório">Purgatório</option>
-                        <option value="Kalahari">Kalahari</option>
-                        <option value="Alpine">Alpine</option>
-                        <option value="Nexterra">Nexterra</option>
-                    </select>
-                    <input type="date" id="filter-date">
-                </div>
-                <div class="card table-card">
-                    <table id="table-matches">
+                <div class="card-box table-card">
+                    <table id="table-kpdv">
                         <thead>
                             <tr>
                                 <th>Data</th>
-                                <th>Mapa</th>
-                                <th>Queda</th>
-                                <th>Posição</th>
-                                <th>Kills</th>
-                                <th>Dano</th>
-                                <th>Ações</th>
+                                <th>Jogador</th>
+                                <th>Partidas (P)</th>
+                                <th>Kills (K)</th>
+                                <th>Dano (D)</th>
+                                <th>Vitórias (V)</th>
+                                <th>GER Atualizado</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -486,186 +511,79 @@
                 </div>
             </section>
 
-            <!-- VIEW: COMPARATIVO DE JOGADORES -->
-            <section id="view-compare" class="view">
-                <h2>Comparativo de Atletas</h2>
-                <div class="compare-selectors">
-                    <select id="compare-player-1"><option value="">Selecione Jogador 1</option></select>
-                    <span class="vs-text">VS</span>
-                    <select id="compare-player-2"><option value="">Selecione Jogador 2</option></select>
-                </div>
-                <div class="card compare-results-card">
-                    <div class="chart-container-radar">
-                        <canvas id="chartCompare"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- VIEW: MÓDULO AP (FINANCEIRO / APOSTAS) -->
-            <section id="view-ap" class="view">
-                <div class="action-bar">
-                    <h2>Controle Financeiro / AP</h2>
-                    <div>
-                        <button class="btn btn-secondary" id="btn-undo-ap">Desfazer Último Fechamento</button>
-                        <button class="btn btn-primary" id="modal-ap-open">+ Nova Transação / Entrada</button>
-                    </div>
-                </div>
-                <div class="metrics-grid">
-                    <div class="card stat-card">
-                        <h3>Saldo Atual</h3>
-                        <p class="stat-value" id="ap-balance">R$ 0,00</p>
-                    </div>
-                    <div class="card stat-card">
-                        <h3>Total Entradas</h3>
-                        <p class="stat-value positive" id="ap-total-in">R$ 0,00</p>
-                    </div>
-                    <div class="card stat-card">
-                        <h3>Total Saídas</h3>
-                        <p class="stat-value negative" id="ap-total-out">R$ 0,00</p>
-                    </div>
-                </div>
-                <div class="card table-card">
-                    <table id="table-ap">
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Descrição</th>
-                                <th>Tipo</th>
-                                <th>Valor</th>
-                                <th>Responsável</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- VIEW: AUDITORIA -->
-            <section id="view-audit" class="view">
-                <h2>Logs de Auditoria do Sistema</h2>
-                <div class="card table-card">
-                    <table id="table-audit">
-                        <thead>
-                            <tr>
-                                <th>Data/Hora</th>
-                                <th>Usuário</th>
-                                <th>Ação</th>
-                                <th>Detalhes</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- VIEW: CONFIGURAÇÕES & BACKUP -->
-            <section id="view-settings" class="view">
-                <h2>Configurações e Exportação</h2>
-                <div class="settings-grid">
-                    <div class="card">
-                        <h3>Exportar Dados</h3>
-                        <p>Baixe todas as estatísticas e registros financeiros em formatos padrão.</p>
-                        <div class="button-group">
-                            <button class="btn btn-secondary" id="btn-export-csv">Exportar CSV</button>
-                            <button class="btn btn-secondary" id="btn-export-json">Backup JSON</button>
-                            <button class="btn btn-secondary" id="btn-export-pdf">Gerar Relatório PDF</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>Importar Backup</h3>
-                        <p>Restaure dados através de um arquivo JSON estruturado.</p>
-                        <input type="file" id="input-import-json" accept=".json">
-                    </div>
-                    <div class="card">
-                        <h3>Integração Discord Webhook</h3>
-                        <input type="url" id="input-discord-webhook" placeholder="https://discord.com/api/webhooks/...">
-                        <button class="btn btn-primary" id="btn-save-webhook">Salvar Webhook</button>
-                    </div>
+            <!-- VIEW: PAINEL ADMIN -->
+            <section id="view-admin" class="view">
+                <h2>Painel de Controle e Auditoria</h2>
+                <div class="card-box" style="margin-top: 20px;">
+                    <p style="color: var(--text-muted); margin-bottom: 16px;">Gerenciamento de permissões e salvaguarda do banco de dados.</p>
+                    <button class="btn btn-secondary" id="btn-reset-season" style="max-width: 250px;">Zerar Estatísticas da Season</button>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- MODAL: REGISTRAR PARTIDA -->
-    <div id="modal-match" class="modal">
-        <div class="modal-content card">
-            <h3>Registrar Partida / Rodada</h3>
-            <form id="form-match">
+    <!-- MODAL: CADASTRAR JOGADOR -->
+    <div id="modal-player" class="modal">
+        <div class="modal-content card-box">
+            <h3>Cadastrar Novo Atleta</h3>
+            <form id="form-player">
                 <div class="form-group">
-                    <label>Data</label>
-                    <input type="date" id="match-date" required>
+                    <label>Nick no Jogo</label>
+                    <input type="text" id="player-nick" placeholder="Ex: NEO ⚡ Shroud" required>
                 </div>
                 <div class="form-group">
-                    <label>Mapa</label>
-                    <select id="match-map" required>
-                        <option value="Bermuda">Bermuda</option>
-                        <option value="Purgatório">Purgatório</option>
-                        <option value="Kalahari">Kalahari</option>
-                        <option value="Alpine">Alpine</option>
-                        <option value="Nexterra">Nexterra</option>
+                    <label>Função / Posição</label>
+                    <select id="player-pos">
+                        <option value="Rush">Ruchador (RUSH)</option>
+                        <option value="Capitão">Capitão / IGL (IGL)</option>
+                        <option value="Suporte">Suporte (SUP)</option>
+                        <option value="Granadeiro">Granadeiro (GRAN)</option>
                     </select>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Queda #</label>
-                        <input type="number" id="match-round" min="1" value="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Posição (Booyah = 1)</label>
-                        <input type="number" id="match-placement" min="1" max="12" value="1" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Kills do Squad</label>
-                        <input type="number" id="match-kills" min="0" value="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Headshots</label>
-                        <input type="number" id="match-hs" min="0" value="0" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Dano Total</label>
-                        <input type="number" id="match-damage" min="0" value="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label>KAST (%)</label>
-                        <input type="number" id="match-kast" min="0" max="100" value="80" required>
-                    </div>
+                <div class="form-group">
+                    <label>URL do Avatar / Foto</label>
+                    <input type="url" id="player-avatar" placeholder="https://exemplo.com/foto.jpg">
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar Partida</button>
+                    <button type="submit" class="btn btn-primary">Criar Card</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: TRANSAÇÃO AP -->
-    <div id="modal-ap" class="modal">
-        <div class="modal-content card">
-            <h3>Nova Transação AP</h3>
-            <form id="form-ap">
+    <!-- MODAL: REGISTRAR KPDV -->
+    <div id="modal-kpdv" class="modal">
+        <div class="modal-content card-box">
+            <h3>Registrar Desempenho KPDV</h3>
+            <form id="form-kpdv">
                 <div class="form-group">
-                    <label>Descrição</label>
-                    <input type="text" id="ap-desc" placeholder="Ex: Aposta Camp Coorp" required>
+                    <label>Selecione o Atleta</label>
+                    <select id="kpdv-player-select" required></select>
                 </div>
-                <div class="form-group">
-                    <label>Tipo</label>
-                    <select id="ap-type" required>
-                        <option value="entrada">Entrada (Lucro/Depósito)</option>
-                        <option value="saida">Saída (Gasto/Aposta)</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Partidas (P)</label>
+                        <input type="number" id="kpdv-p" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kills (K)</label>
+                        <input type="number" id="kpdv-k" min="0" value="0" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Valor (R$)</label>
-                    <input type="number" step="0.01" id="ap-value" min="0.01" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Dano Total (D)</label>
+                        <input type="number" id="kpdv-d" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Vitórias / Booyah (V)</label>
+                        <input type="number" id="kpdv-v" min="0" value="0" required>
+                    </div>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Registrar</button>
+                    <button type="submit" class="btn btn-primary">Processar & Subir GER</button>
                 </div>
             </form>
         </div>
@@ -678,7 +596,7 @@
 
     <!-- Script Consolidado da Aplicação -->
     <script>
-        // 1. Configuração do Firebase com suas credenciais oficiais
+        // Configuração Oficial do Firebase fornecida
         const firebaseConfig = {
             apiKey: "AIzaSyBmYPkg0cvlcswmBOaIr5fDPjzZSiRfYJw",
             authDomain: "neocard-79375.firebaseapp.com",
@@ -692,117 +610,7 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // 2. Database & Sanitização
-        const DBManager = {
-            async logAudit(action, details) {
-                try {
-                    const user = auth.currentUser;
-                    await db.collection('audit_logs').add({
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        user: user ? user.email : 'Anônimo',
-                        action: action,
-                        details: details
-                    });
-                } catch (e) {
-                    console.error("Erro ao registrar auditoria:", e);
-                }
-            },
-
-            sanitize(text) {
-                const element = document.createElement('div');
-                element.textContent = text;
-                return element.innerHTML;
-            },
-
-            async getMatches() {
-                const snapshot = await db.collection('matches').orderBy('date', 'desc').get();
-                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            },
-
-            async addMatch(matchData) {
-                const sanitized = {
-                    date: matchData.date,
-                    map: this.sanitize(matchData.map),
-                    round: Number(matchData.round),
-                    placement: Number(matchData.placement),
-                    kills: Number(matchData.kills),
-                    hs: Number(matchData.hs),
-                    damage: Number(matchData.damage),
-                    kast: Number(matchData.kast),
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                const ref = await db.collection('matches').add(sanitized);
-                await this.logAudit('ADICIONAR_PARTIDA', `Partida em ${sanitized.map} (Queda ${sanitized.round})`);
-                return ref.id;
-            },
-
-            async deleteMatch(matchId) {
-                await db.collection('matches').doc(matchId).delete();
-                await this.logAudit('EXCLUIR_PARTIDA', `ID: ${matchId}`);
-            },
-
-            async getAPTransactions() {
-                const snapshot = await db.collection('ap_transactions').orderBy('date', 'desc').get();
-                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            },
-
-            async addAPTransaction(transData) {
-                const sanitized = {
-                    date: new Date().toISOString().split('T')[0],
-                    description: this.sanitize(transData.description),
-                    type: transData.type,
-                    value: Number(transData.value),
-                    author: auth.currentUser ? auth.currentUser.email : 'Sistema',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                
-                const currentSnapshot = await this.getAPTransactions();
-                await db.collection('ap_history').add({
-                    snapshot: currentSnapshot,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                const ref = await db.collection('ap_transactions').add(sanitized);
-                await this.logAudit('ADICIONAR_AP', `${sanitized.type}: R$ ${sanitized.value} - ${sanitized.description}`);
-                return ref.id;
-            },
-
-            async undoAPClosure() {
-                const historySnapshot = await db.collection('ap_history').orderBy('timestamp', 'desc').limit(1).get();
-                if (historySnapshot.empty) throw new Error("Nenhum histórico disponível para desfazer.");
-                
-                const docToRestore = historySnapshot.docs[0];
-                const previousData = docToRestore.data().snapshot;
-
-                const currentDocs = await db.collection('ap_transactions').get();
-                const batch = db.batch();
-                currentDocs.forEach(d => batch.delete(d.ref));
-                await batch.commit();
-
-                const batchRestore = db.batch();
-                previousData.forEach(item => {
-                    const newRef = db.collection('ap_transactions').doc();
-                    batchRestore.set(newRef, {
-                        date: item.date,
-                        description: item.description,
-                        type: item.type,
-                        value: item.value,
-                        author: item.author,
-                        createdAt: item.createdAt || firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                });
-                await batchRestore.commit();
-                await docToRestore.ref.delete();
-                await this.logAudit('DESFAZER_AP', 'Restaurado último snapshot financeiro');
-            },
-
-            async getAuditLogs() {
-                const snapshot = await db.collection('audit_logs').orderBy('timestamp', 'desc').limit(50).get();
-                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            }
-        };
-
-        // 3. Autenticação
+        // Gerenciador de Autenticação
         const AuthManager = {
             init() {
                 const provider = new firebase.auth.GoogleAuthProvider();
@@ -818,15 +626,13 @@
                     auth.signInWithEmailAndPassword(email, pass).catch(error => this.showError(error.message));
                 });
 
-                document.getElementById('btn-logout').addEventListener('click', () => {
-                    auth.signOut();
-                });
+                document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
 
                 auth.onAuthStateChanged(user => {
                     if (user) {
-                        this.handleAuthSuccess(user);
+                        this.handleSuccess(user);
                     } else {
-                        this.handleAuthLogout();
+                        this.handleLogout();
                     }
                 });
             },
@@ -837,261 +643,119 @@
                 errBox.classList.remove('hidden');
             },
 
-            async handleAuthSuccess(user) {
+            handleSuccess(user) {
                 document.getElementById('auth-screen').classList.remove('active');
                 document.getElementById('app-screen').classList.add('active');
                 document.getElementById('user-display-name').textContent = user.displayName || user.email;
 
-                let role = 'jogador';
-                if (user.email.includes('admin') || user.email.includes('coach')) {
-                    role = 'admin';
-                    document.getElementById('nav-audit').style.display = 'block';
+                if (user.email.includes('admin') || user.email.includes('coach') || user.email.includes('souza')) {
+                    document.getElementById('nav-admin').style.display = 'block';
+                    document.getElementById('user-role-badge').textContent = 'Admin / Coach';
                 }
-                document.getElementById('user-role-badge').textContent = role.toUpperCase();
 
                 App.initModules();
             },
 
-            handleAuthLogout() {
+            handleLogout() {
                 document.getElementById('app-screen').classList.remove('active');
                 document.getElementById('auth-screen').classList.add('active');
             }
         };
 
-        // 4. Estatísticas & Métricas
-        const StatsEngine = {
-            calculateGlobal(matches) {
-                if (!matches.length) return { winrate: '0%', adr: '0.0', hs: '0%', kast: '0%' };
-
-                let wins = 0;
-                let totalDamage = 0;
-                let totalKills = 0;
-                let totalHS = 0;
-                let kastSum = 0;
-                let totalRounds = matches.length;
-
-                matches.forEach(m => {
-                    if (m.placement === 1) wins++;
-                    totalDamage += m.damage;
-                    totalKills += m.kills;
-                    totalHS += m.hs;
-                    kastSum += m.kast;
-                });
-
-                const winrate = ((wins / totalRounds) * 100).toFixed(1) + '%';
-                const adr = (totalDamage / totalRounds).toFixed(1);
-                const hs = totalKills > 0 ? ((totalHS / totalKills) * 100).toFixed(1) + '%' : '0%';
-                const kast = (kastSum / totalRounds).toFixed(1) + '%';
-
-                return { winrate, adr, hs, kast };
+        // Lógica de Negócio e Cálculo KPDV & GER
+        const CardsEngine = {
+            calculateGer(totalK, totalD, totalV, totalP) {
+                // Base 50, nunca cai, sobe progressivamente com KPDV
+                if (totalP === 0) return 50;
+                let calculated = 50 + (totalK * 0.4) + (totalD * 0.0008) + (totalV * 2.5) - (totalP * 0.1);
+                let ger = Math.round(Math.max(50, calculated));
+                return Math.min(99, ger); // Teto máximo 99
             },
 
-            renderTable(matches) {
-                const tbody = document.querySelector('#table-matches tbody');
-                tbody.innerHTML = '';
-
-                matches.forEach(m => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${m.date}</td>
-                        <td><strong>${m.map}</strong></td>
-                        <td>Queda ${m.round}</td>
-                        <td>${m.placement}º</td>
-                        <td>${m.kills} (HS: ${m.hs})</td>
-                        <td>${m.damage}</td>
-                        <td><button class="btn btn-secondary" onclick="StatsEngine.removeMatch('${m.id}')" style="padding:4px 8px; font-size:0.8rem;">Excluir</button></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
+            getRarity(ger) {
+                if (ger >= 90) return { name: 'Mítico', class: 'card-mitico', badge: 'badge-mitico' };
+                if (ger >= 80) return { name: 'Lendário', class: 'card-lendario', badge: 'badge-lendario' };
+                if (ger >= 70) return { name: 'Épico', class: 'card-epico', badge: 'badge-epico' };
+                if (ger >= 60) return { name: 'Raro', class: 'card-raro', badge: 'badge-raro' };
+                return { name: 'Comum', class: 'card-comum', badge: 'badge-comum' };
             },
 
-            async removeMatch(id) {
-                if (confirm("Deseja realmente excluir esta partida?")) {
-                    await DBManager.deleteMatch(id);
-                    App.loadData();
-                }
+            sanitize(text) {
+                const el = document.createElement('div');
+                el.textContent = text;
+                return el.innerHTML;
             }
         };
 
-        // 5. Módulo AP Financeiro
-        const APManager = {
-            renderTransactions(transactions) {
-                const tbody = document.querySelector('#table-ap tbody');
-                tbody.innerHTML = '';
-
-                let totalIn = 0;
-                let totalOut = 0;
-
-                transactions.forEach(t => {
-                    if (t.type === 'entrada') totalIn += t.value;
-                    else totalOut += t.value;
-
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${t.date}</td>
-                        <td>${t.description}</td>
-                        <td><span class="${t.type === 'entrada' ? 'positive' : 'negative'}">${t.type.toUpperCase()}</span></td>
-                        <td class="${t.type === 'entrada' ? 'positive' : 'negative'}">R$ ${t.value.toFixed(2)}</td>
-                        <td>${t.author}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-
-                const balance = totalIn - totalOut;
-                document.getElementById('ap-balance').textContent = `R$ ${balance.toFixed(2)}`;
-                document.getElementById('ap-balance').className = `stat-value ${balance >= 0 ? 'positive' : 'negative'}`;
-                document.getElementById('ap-total-in').textContent = `R$ ${totalIn.toFixed(2)}`;
-                document.getElementById('ap-total-out').textContent = `R$ ${totalOut.toFixed(2)}`;
+        // Operações no Firestore
+        const DBManager = {
+            async getPlayers() {
+                const snap = await db.collection('players').orderBy('ger', 'desc').get();
+                return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             },
 
-            async handleUndo() {
-                try {
-                    await DBManager.undoAPClosure();
-                    alert("Última operação desfeita com sucesso!");
-                    App.loadData();
-                } catch (e) {
-                    alert(e.message);
-                }
-            }
-        };
-
-        // 6. Gráficos (Chart.js)
-        let chartPerfInstance = null;
-        let chartMapInstance = null;
-        let chartCompareInstance = null;
-
-        const ChartsManager = {
-            renderPerformance(matches) {
-                const ctx = document.getElementById('chartPerformance').getContext('2d');
-                const sorted = [...matches].reverse().slice(-10);
-                
-                const labels = sorted.map(m => `${m.map} (Q${m.round})`);
-                const damageData = sorted.map(m => m.damage);
-                const killsData = sorted.map(m => m.kills * 50);
-
-                if (chartPerfInstance) chartPerfInstance.destroy();
-
-                chartPerfInstance = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            { label: 'Dano Causado', data: damageData, borderColor: '#7c3aed', backgroundColor: 'rgba(124, 58, 237, 0.1)', tension: 0.3, fill: true },
-                            { label: 'Kills (x50)', data: killsData, borderColor: '#06b6d4', tension: 0.3 }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#f3f4f6' } } },
-                        scales: {
-                            x: { ticks: { color: '#9ca3af' }, grid: { color: '#2b2f3d' } },
-                            y: { ticks: { color: '#9ca3af' }, grid: { color: '#2b2f3d' } }
-                        }
-                    }
+            async addPlayer(data) {
+                await db.collection('players').add({
+                    nick: CardsEngine.sanitize(data.nick),
+                    pos: data.pos,
+                    avatar: data.avatar || 'https://via.placeholder.com/150',
+                    kills: 0,
+                    matches: 0,
+                    damage: 0,
+                    wins: 0,
+                    ger: 50,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
             },
 
-            renderMapStats(matches) {
-                const ctx = document.getElementById('chartMaps').getContext('2d');
-                const mapCounts = {};
-
-                matches.forEach(m => {
-                    mapCounts[m.map] = (mapCounts[m.map] || 0) + 1;
-                });
-
-                const labels = Object.keys(mapCounts);
-                const data = Object.values(mapCounts);
-
-                if (chartMapInstance) chartMapInstance.destroy();
-
-                chartMapInstance = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: data,
-                            backgroundColor: ['#7c3aed', '#06b6d4', '#10b981', '#f59e0b', '#ef4444']
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { position: 'bottom', labels: { color: '#f3f4f6' } } }
-                    }
-                });
+            async getKPDVLogs() {
+                const snap = await db.collection('kpdv_logs').orderBy('date', 'desc').limit(30).get();
+                return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             },
 
-            renderComparison() {
-                const ctx = document.getElementById('chartCompare').getContext('2d');
-                if (chartCompareInstance) chartCompareInstance.destroy();
+            async addKPDVEntry(playerId, entry) {
+                const playerRef = db.collection('players').doc(playerId);
+                const playerDoc = await playerRef.get();
+                if (!playerDoc.exists) return;
 
-                chartCompareInstance = new Chart(ctx, {
-                    type: 'radar',
-                    data: {
-                        labels: ['ADR', 'Headshot %', 'KAST', 'Sobrevivência', 'Agressividade'],
-                        datasets: [
-                            { label: 'Atleta A', data: [85, 45, 90, 75, 80], backgroundColor: 'rgba(124, 58, 237, 0.2)', borderColor: '#7c3aed' },
-                            { label: 'Atleta B', data: [70, 60, 80, 85, 65], backgroundColor: 'rgba(6, 182, 212, 0.2)', borderColor: '#06b6d4' }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#f3f4f6' } } },
-                        scales: {
-                            r: {
-                                grid: { color: '#2b2f3d' },
-                                angleLines: { color: '#2b2f3d' },
-                                ticks: { display: false }
-                            }
-                        }
-                    }
+                const pData = playerDoc.data();
+                const newK = pData.kills + Number(entry.kills);
+                const newD = pData.damage + Number(entry.damage);
+                const newV = pData.wins + Number(entry.wins);
+                const newP = pData.matches + Number(entry.matches);
+                const newGer = CardsEngine.calculateGer(newK, newD, newV, newP);
+
+                // Garante que o GER nunca cai em relação ao anterior
+                const finalGer = Math.max(pData.ger, newGer);
+
+                await playerRef.update({
+                    kills: newK,
+                    damage: newD,
+                    wins: newV,
+                    matches: newP,
+                    ger: finalGer
+                });
+
+                await db.collection('kpdv_logs').add({
+                    date: new Date().toISOString().split('T')[0],
+                    playerNick: pData.nick,
+                    matches: Number(entry.matches),
+                    kills: Number(entry.kills),
+                    damage: Number(entry.damage),
+                    wins: Number(entry.wins),
+                    gerResult: finalGer
                 });
             }
         };
 
-        // 7. Exportação
-        const ExportManager = {
-            exportCSV(matches) {
-                let csv = 'Data,Mapa,Queda,Posicao,Kills,HS,Dano,KAST\n';
-                matches.forEach(m => {
-                    csv += `${m.date},${m.map},${m.round},${m.placement},${m.kills},${m.hs},${m.damage},${m.kast}\n`;
-                });
-                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = `neo_elite_relatorio_${new Date().toISOString().split('T')[0]}.csv`;
-                link.click();
-            },
-
-            async exportJSON() {
-                const matches = await DBManager.getMatches();
-                const ap = await DBManager.getAPTransactions();
-                const backup = { version: '2.0', timestamp: new Date().toISOString(), matches, ap };
-                
-                const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = `neo_elite_backup_${new Date().toISOString().split('T')[0]}.json`;
-                link.click();
-            },
-
-            triggerPDF() {
-                window.print();
-            }
-        };
-
-        // 8. Aplicação Central
+        // Aplicação Central
         const App = {
-            matchesCache: [],
-            apCache: [],
+            playersCache: [],
 
             initModules() {
                 this.setupNavigation();
                 this.setupModals();
                 this.setupForms();
-                this.setupSettings();
                 this.loadData();
             },
 
@@ -1101,7 +765,6 @@
                     btn.addEventListener('click', () => {
                         navBtns.forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
-
                         const target = btn.getAttribute('data-target');
                         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
                         document.getElementById(target).classList.add('active');
@@ -1110,14 +773,13 @@
             },
 
             setupModals() {
-                document.getElementById('modal-match-open').addEventListener('click', () => {
-                    document.getElementById('modal-match').classList.add('active');
-                    document.getElementById('match-date').valueAsDate = new Date();
+                document.getElementById('modal-player-open').addEventListener('click', () => {
+                    document.getElementById('modal-player').classList.add('active');
                 });
-                document.getElementById('modal-ap-open').addEventListener('click', () => {
-                    document.getElementById('modal-ap').classList.add('active');
+                document.getElementById('modal-kpdv-open').addEventListener('click', () => {
+                    this.populatePlayerSelect();
+                    document.getElementById('modal-kpdv').classList.add('active');
                 });
-
                 document.querySelectorAll('.modal-close').forEach(btn => {
                     btn.addEventListener('click', () => {
                         document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
@@ -1125,91 +787,116 @@
                 });
             },
 
-            setupForms() {
-                document.getElementById('form-match').addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const data = {
-                        date: document.getElementById('match-date').value,
-                        map: document.getElementById('match-map').value,
-                        round: document.getElementById('match-round').value,
-                        placement: document.getElementById('match-placement').value,
-                        kills: document.getElementById('match-kills').value,
-                        hs: document.getElementById('match-hs').value,
-                        damage: document.getElementById('match-damage').value,
-                        kast: document.getElementById('match-kast').value
-                    };
-
-                    await DBManager.addMatch(data);
-                    document.getElementById('modal-match').classList.remove('active');
-                    this.loadData();
+            populatePlayerSelect() {
+                const select = document.getElementById('kpdv-player-select');
+                select.innerHTML = '';
+                this.playersCache.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.id;
+                    opt.textContent = p.nick;
+                    select.appendChild(opt);
                 });
-
-                document.getElementById('form-ap').addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const data = {
-                        description: document.getElementById('ap-desc').value,
-                        type: document.getElementById('ap-type').value,
-                        value: document.getElementById('ap-value').value
-                    };
-
-                    await DBManager.addAPTransaction(data);
-                    document.getElementById('modal-ap').classList.remove('active');
-                    this.loadData();
-                });
-
-                document.getElementById('btn-undo-ap').addEventListener('click', () => APManager.handleUndo());
             },
 
-            setupSettings() {
-                document.getElementById('btn-export-csv').addEventListener('click', () => ExportManager.exportCSV(this.matchesCache));
-                document.getElementById('btn-export-json').addEventListener('click', () => ExportManager.exportJSON());
-                document.getElementById('btn-export-pdf').addEventListener('click', () => ExportManager.triggerPDF());
-
-                document.getElementById('btn-save-webhook').addEventListener('click', () => {
-                    const url = document.getElementById('input-discord-webhook').value;
-                    localStorage.setItem('discord_webhook', url);
-                    alert("Webhook salvo com sucesso!");
+            setupForms() {
+                document.getElementById('form-player').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const data = {
+                        nick: document.getElementById('player-nick').value,
+                        pos: document.getElementById('player-pos').value,
+                        avatar: document.getElementById('player-avatar').value
+                    };
+                    await DBManager.addPlayer(data);
+                    document.getElementById('modal-player').classList.remove('active');
+                    e.target.reset();
+                    this.loadData();
                 });
 
-                const savedWebhook = localStorage.getItem('discord_webhook');
-                if (savedWebhook) document.getElementById('input-discord-webhook').value = savedWebhook;
+                document.getElementById('form-kpdv').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const playerId = document.getElementById('kpdv-player-select').value;
+                    const entry = {
+                        matches: document.getElementById('kpdv-p').value,
+                        kills: document.getElementById('kpdv-k').value,
+                        damage: document.getElementById('kpdv-d').value,
+                        wins: document.getElementById('kpdv-v').value
+                    };
+                    await DBManager.addKPDVEntry(playerId, entry);
+                    document.getElementById('modal-kpdv').classList.remove('active');
+                    e.target.reset();
+                    this.loadData();
+                });
             },
 
             async loadData() {
-                this.matchesCache = await DBManager.getMatches();
-                this.apCache = await DBManager.getAPTransactions();
+                this.playersCache = await DBManager.getPlayers();
+                const logs = await DBManager.getKPDVLogs();
 
-                const global = StatsEngine.calculateGlobal(this.matchesCache);
-                document.getElementById('dash-winrate').textContent = global.winrate;
-                document.getElementById('dash-adr').textContent = global.adr;
-                document.getElementById('dash-hs').textContent = global.hs;
-                document.getElementById('dash-kast').textContent = global.kast;
+                // Renderizar Cards
+                const container = document.getElementById('cards-container');
+                container.innerHTML = '';
 
-                StatsEngine.renderTable(this.matchesCache);
-                APManager.renderTransactions(this.apCache);
-                ChartsManager.renderPerformance(this.matchesCache);
-                ChartsManager.renderMapStats(this.matchesCache);
-                ChartsManager.renderComparison();
-
-                const auditLogs = await DBManager.getAuditLogs();
-                const auditTbody = document.querySelector('#table-audit tbody');
-                if (auditTbody) {
-                    auditTbody.innerHTML = '';
-                    auditLogs.forEach(l => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${l.timestamp ? new Date(l.timestamp.toDate()).toLocaleString() : 'Agora'}</td>
-                            <td>${l.user}</td>
-                            <td><strong>${l.action}</strong></td>
-                            <td>${l.details}</td>
-                        `;
-                        auditTbody.appendChild(tr);
-                    });
+                if (this.playersCache.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align:center;">Nenhum card cadastrado ainda. Clique em "+ Novo Jogador".</p>';
                 }
+
+                this.playersCache.forEach(p => {
+                    const rarity = CardsEngine.getRarity(p.ger);
+                    const cardEl = document.createElement('div');
+                    cardEl.className = `player-card ${rarity.class}`;
+                    cardEl.innerHTML = `
+                        <div class="card-header-info">
+                            <div class="card-ger-box">
+                                <div class="card-ger">${p.ger}</div>
+                                <div class="card-pos">${p.pos}</div>
+                            </div>
+                            <span class="card-rarity-badge ${rarity.badge}">${rarity.name}</span>
+                        </div>
+                        <div class="card-avatar-container">
+                            ${p.avatar ? `<img src="${p.avatar}" alt="${p.nick}">` : '⚡'}
+                        </div>
+                        <div class="card-player-name">${p.nick}</div>
+                        <div class="card-stats-grid">
+                            <div class="card-stat-item">
+                                <div class="card-stat-label">Partidas</div>
+                                <div class="card-stat-val">${p.matches}</div>
+                            </div>
+                            <div class="card-stat-item">
+                                <div class="card-stat-label">Kills</div>
+                                <div class="card-stat-val">${p.kills}</div>
+                            </div>
+                            <div class="card-stat-item">
+                                <div class="card-stat-label">Dano</div>
+                                <div class="card-stat-val">${p.damage}</div>
+                            </div>
+                            <div class="card-stat-item">
+                                <div class="card-stat-label">Vitórias</div>
+                                <div class="card-stat-val">${p.wins}</div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(cardEl);
+                });
+
+                // Renderizar Tabela KPDV Logs
+                const tbody = document.querySelector('#table-kpdv tbody');
+                tbody.innerHTML = '';
+                logs.forEach(l => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${l.date}</td>
+                        <td><strong>${l.playerNick}</strong></td>
+                        <td>${l.matches}</td>
+                        <td>${l.kills}</td>
+                        <td>${l.damage}</td>
+                        <td>${l.wins}</td>
+                        <td><span class="highlight" style="font-weight:bold;">${l.gerResult}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
             }
         };
 
-        // Inicialização do Auth ao carregar a página
         document.addEventListener('DOMContentLoaded', () => AuthManager.init());
     </script>
 </body>
