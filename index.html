@@ -1,904 +1,606 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEO ELITE CARDS | Sistema KPDV & Cards Free Fire</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-main: #06070a;
-            --bg-card: #0f111a;
-            --bg-input: #161925;
-            --primary: #8b5cf6;
-            --primary-hover: #7c3aed;
-            --accent: #00f2fe;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --danger: #ef4444;
-            --success: #10b981;
-            --border: #242938;
-            --radius: 16px;
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090909"><title>MOD NEO</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap");
+:root{--bg:#08070d;--panel:#12101b;--panel2:#1a1726;--gold:#b66cff;--muted:#aaa5b8;--line:#30263f;--white:#f7f4ff;--green:#63f5bd;--red:#ff6b91;--neon:#c56cff;--neon2:#8e45ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#29200e 0,transparent 28%),var(--bg);color:var(--white);font:15px/1.5 Arial,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:22px}.auth-card{width:min(430px,100%);background:#111;border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:0 20px 80px #0009}
+.logo{font-weight:900;letter-spacing:3px;color:var(--gold);font-size:24px}.sub{color:var(--muted);margin:4px 0 24px}
+h1,h2,h3,p{margin-top:0}h2{font-size:22px;margin-bottom:5px}.field{margin:15px 0}.field label{display:block;color:#c9c9c9;font-size:13px;margin-bottom:7px}
+input,textarea,select{width:100%;background:#090909;color:white;border:1px solid #333;border-radius:10px;padding:12px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--gold)}textarea{resize:vertical;min-height:90px}
+.btn{border:0;border-radius:10px;background:var(--gold);color:#17120a;font-weight:800;padding:12px 16px}.btn:hover{filter:brightness(1.08)}.btn.full{width:100%}.btn.secondary{background:#242424;color:#eee;border:1px solid #383838}.btn.danger{background:#401d1d;color:#ffbaba;border:1px solid #6d3030}.btn.ghost{background:transparent;color:#ddd;border:1px solid #383838}
+.switch{color:var(--muted);text-align:center;margin:18px 0 0;font-size:14px}.link{color:var(--gold);cursor:pointer;font-weight:bold}.error{color:#ff8585;font-size:13px;min-height:18px;margin-top:8px}
+.app{min-height:100vh}.topbar{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:#0d0d0def;position:sticky;top:0;z-index:5}
+.brand{font-weight:900;letter-spacing:2px;color:var(--gold)}.user-mini{display:flex;align-items:center;gap:10px;color:#ddd;font-size:14px}
+.avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;background:#292929;border:1px solid #514326}
+.layout{display:grid;grid-template-columns:230px 1fr;max-width:1300px;margin:auto;min-height:calc(100vh - 72px)}
+.sidebar{padding:28px 16px;border-right:1px solid var(--line)}.navbtn{width:100%;padding:13px 14px;text-align:left;background:transparent;border:1px solid transparent;border-radius:10px;color:#aaa;margin:4px 0;font-weight:700}.navbtn.active,.navbtn:hover{background:#211b10;border-color:#4a3b1d;color:var(--gold)}
+.main{padding:38px clamp(18px,4vw,55px)}.eyebrow{color:var(--gold);font-size:11px;font-weight:bold;letter-spacing:2px}.heading{font-size:30px;margin:5px 0}.muted{color:var(--muted)}.panel,.card{background:linear-gradient(145deg,#151515,#101010);border:1px solid var(--line);border-radius:16px;padding:22px;margin-top:18px}
+.profile-head{display:flex;align-items:center;gap:18px;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:20px}.big-avatar{width:82px;height:82px;border-radius:50%;object-fit:cover;background:#282828;border:2px solid var(--gold)}
+.upload{display:inline-block;color:var(--gold);font-size:13px;cursor:pointer;margin-top:5px}.upload input{display:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.actions,.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}.actions .btn{min-width:140px}.notice{color:var(--muted);font-size:12px;margin-top:12px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.stat{background:#111;border:1px solid var(--line);border-radius:14px;padding:17px}.stat b{display:block;color:var(--gold);font-size:23px}.roomcode{font-size:30px;font-weight:900;letter-spacing:5px;color:var(--gold);margin:8px 0}.tag{display:inline-block;border:1px solid #514326;color:var(--gold);padding:4px 9px;border-radius:30px;font-size:11px;font-weight:bold}
+.playerlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:15px 0}.player{display:flex;align-items:center;gap:10px;background:#0c0c0c;border:1px solid #292929;padding:10px;border-radius:10px}.player .avatar{flex-shrink:0}.player small{display:block;color:var(--muted)}
+.resultbox{background:#0b0b0b;border:1px solid #303030;border-radius:12px;padding:15px;margin:15px 0}.resultrow{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #242424}.resultrow:last-child{border:0}.green{color:var(--green)}.red{color:var(--red)}.gold{color:var(--gold)}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:480px}th,td{text-align:left;padding:12px;border-bottom:1px solid #292929}th{color:var(--gold);font-size:12px}
+.empty{padding:25px;text-align:center;color:var(--muted);border:1px dashed #333;border-radius:12px;margin-top:15px}
+.modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;padding:18px;z-index:10}.modal.show{display:flex}.modalbox{width:min(620px,100%);max-height:90vh;overflow:auto;background:#141414;border:1px solid #514326;border-radius:17px;padding:24px;box-shadow:0 20px 80px #000}
+.close{float:right;background:#252525;border:0;color:white;border-radius:8px;padding:6px 10px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.sidebar{display:flex;overflow:auto;padding:10px;border-right:0;border-bottom:1px solid var(--line)}.navbtn{white-space:nowrap;width:auto;margin:0 3px}.main{padding:25px 16px}.grid2,.cards,.playerlist,.formgrid{grid-template-columns:1fr}.topbar{padding:0 16px}.heading{font-size:25px}.actions{flex-direction:column}.actions .btn{width:100%}.user-mini{gap:6px}.user-mini span{max-width:90px;overflow:hidden;text-overflow:ellipsis}}
 
-            /* Raridades */
-            --comum: #9ca3af;
-            --raro: #3b82f6;
-            --epico: #a855f7;
-            --lendario: #f59e0b;
-            --mitico: #ef4444;
-        }
+/* NEON EDITION — ajustes de identidade visual e responsividade */
+body{font-family:Inter,Arial,sans-serif;font-size:clamp(12px,1.05vw,14px);background:
+ radial-gradient(ellipse at 12% 0%,#35165b55 0,transparent 34%),
+ radial-gradient(ellipse at 90% 12%,#25105a55 0,transparent 30%),var(--bg)}
+.logo,.brand,.eyebrow{font-family:Orbitron,Inter,sans-serif}
+.logo{font-size:clamp(19px,2vw,23px);letter-spacing:2px;text-shadow:0 0 18px #a94cff77}
+.brand{letter-spacing:1.5px;text-shadow:0 0 14px #a94cff66}
+.btn{background:linear-gradient(135deg,#c879ff,#8d48ed);color:#fff;box-shadow:0 0 13px #9d4dff22;padding:10px 13px;font-size:12px;letter-spacing:.25px}
+.btn:hover{filter:brightness(1.12);box-shadow:0 0 18px #a94cff55}
+.btn.secondary,.btn.ghost{background:#1b1726;color:#eee;border:1px solid #48365f;box-shadow:none}
+.btn.danger{background:#381526;color:#ffb6c9;border:1px solid #77304f;box-shadow:none}
+.navbtn{font-size:12px;padding:10px 11px;letter-spacing:.2px}
+.navbtn.active,.navbtn:hover{background:#241535;border-color:#8f4bc7;color:#e2baff;box-shadow:inset 0 0 15px #8b3bd522}
+.topbar{height:62px;padding:0 clamp(12px,3vw,36px);background:#0b0912f2;border-bottom-color:#38294a}
+.layout{grid-template-columns:190px minmax(0,1fr);max-width:1180px;min-height:calc(100vh - 62px)}
+.sidebar{padding:22px 12px;border-right-color:#30263f}
+.main{padding:clamp(18px,3vw,32px) clamp(14px,3.2vw,38px);min-width:0}
+.heading{font-family:Orbitron,Inter,sans-serif;font-size:clamp(20px,2.2vw,27px);letter-spacing:.1px;margin:5px 0}
+h2{font-size:clamp(16px,1.5vw,19px)}
+h3{font-size:14px}
+.panel,.card{padding:clamp(13px,2vw,18px);border-color:#332743;border-radius:13px;background:linear-gradient(145deg,#171321,#100e17);margin-top:14px}
+.auth-card{padding:clamp(20px,4vw,28px);border-color:#39294c;background:linear-gradient(145deg,#171321,#100e17)}
+.field{margin:12px 0}
+.field label{font-size:11px;color:#c8bfd7;margin-bottom:5px}
+input,textarea,select{font-size:13px;padding:10px 11px;border-radius:8px;background:#0c0a12;border-color:#382d49;min-width:0}
+textarea{min-height:76px}
+.profile-head{gap:14px;padding-bottom:15px;margin-bottom:15px}
+.big-avatar{width:70px;height:70px}
+.avatar{width:32px;height:32px}
+.cards{gap:10px;margin-top:14px}
+.stat{padding:13px;border-color:#332743}
+.stat b{font-size:19px;color:#d8a5ff}
+.roomcode{font-family:Orbitron,Inter,sans-serif;font-size:clamp(21px,3vw,27px);letter-spacing:3px;color:#d8a5ff}
+.tag{border-color:#70459a;color:#d8a5ff;font-size:10px;padding:3px 8px}
+.resultbox{padding:12px;border-color:#342842}
+.resultrow{padding:7px 0;font-size:12px}
+.playerlist{gap:7px;margin:12px 0}
+.player{padding:8px;font-size:12px}
+.modalbox{width:min(560px,100%);padding:18px;border-color:#70459a;background:#14101d}
+.tablewrap th,.tablewrap td{padding:9px;font-size:12px}
+.notice,.muted{font-size:12px}
+.actions,.btnrow{gap:8px;margin-top:13px}
+.btn:focus-visible,.navbtn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #c56cff;outline-offset:2px}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+@media(max-width:760px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .sidebar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-content:start;align-items:start;align-self:start;gap:5px;padding:8px 9px;border-bottom:1px solid #30263f;min-height:0;height:auto}
+ .navbtn{display:flex;align-items:center;justify-content:center;align-self:start;min-height:38px;height:auto;white-space:normal;width:100%;margin:0;padding:8px 3px;text-align:center;font-size:10px;line-height:1.2;border-radius:8px}
+ .main{padding:14px 11px 22px}
+ .topbar{height:54px;padding:0 11px}
+ .brand{font-size:13px}
+ .user-mini{font-size:11px;gap:6px}
+ .user-mini .navbtn{font-size:10px;padding:7px 8px}
+ .heading{font-size:19px}
+ .eyebrow{font-size:9px;letter-spacing:1.2px}
+ .panel,.card{padding:11px;margin-top:10px;border-radius:10px}
+ .grid2,.cards,.playerlist,.formgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .cards .btn{padding:9px 5px;font-size:11px}
+ .field{margin:9px 0}
+ input,textarea,select{padding:9px;font-size:12px}
+ .btn{font-size:11px;padding:10px 11px;min-height:36px}
+ .actions .btn{min-width:0;width:auto}
+ .profile-head{align-items:center}
+ .big-avatar{width:60px;height:60px}
+ .roomcode{font-size:22px}
+ .modalbox{padding:15px;max-height:88vh}
+ .resultrow{font-size:11px}
+ .player{gap:7px;padding:7px}
+ .player .avatar{width:28px;height:28px}
+}
+@media(max-width:390px){
+ .grid2,.formgrid{grid-template-columns:1fr}
+ .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .user-mini span{max-width:70px}
+ .main{padding-left:10px;padding-right:10px}
+ .navbtn{font-size:9px}
+ .profile-head{gap:10px}
+ .big-avatar{width:54px;height:54px}
+}
+@media(min-width:761px) and (max-width:980px){
+ .layout{grid-template-columns:165px minmax(0,1fr)}
+ .sidebar{padding:18px 9px}
+ .main{padding:24px 20px}
+}
 
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+/* Seleção de funções do MODO MAP */
+.map-section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.role-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:15px}
+.role-choice{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:14px 8px;background:#100d18;border:1px solid #3b2b50;border-radius:12px;color:#eee;transition:.18s;min-height:90px}
+.role-choice:hover,.role-choice.selected{border-color:#c56cff;background:#241535;box-shadow:inset 0 0 18px #a34bff20}
+.role-choice b{font-family:Orbitron,Inter,sans-serif;color:#e2baff;font-size:12px}
+.role-choice small{font-size:10px;color:#aaa;text-align:center}
+.role-icon{width:34px;height:34px;color:#d8a5ff;display:grid;place-items:center}
+.role-icon svg{width:100%;height:100%}
+.role-grid-secondary{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:5px}
+@media(max-width:760px){
+ .role-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ .role-choice{padding:11px 5px}
+ .map-section-head{align-items:center}
+}
+@media(max-width:380px){
+ .role-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 
-        .highlight { color: var(--accent); }
-        .positive { color: var(--success) !important; }
-        .negative { color: var(--danger) !important; }
-        .hidden { display: none !important; }
+/* Ranking compacto */
+.rank-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.rank-toolbar .btn{padding:8px 12px}.rank-toolbar .active-rank{border-color:#c56cff;color:#e2baff;background:#28183a}
+#mapRolePicker.role-picker-locked{display:none!important}#mapRolePanel .change-role-btn{margin-top:10px}
+@media(max-width:480px){.rank-toolbar .btn{flex:1}}
+#rankTablePanel{padding:9px!important;margin-top:9px!important}
+#rankTablePanel .tablewrap{border-radius:7px;overflow-x:auto}
+#rankTablePanel table{min-width:0;width:100%;font-size:10px;white-space:nowrap}
+#rankTablePanel th,#rankTablePanel td{padding:6px 5px!important;font-size:10px!important;line-height:1.25}
+#rankTablePanel th{font-size:8px!important;letter-spacing:.25px}
+#rankTablePanel td b{font-size:10px}
+.rank-toolbar{gap:5px;margin:9px 0!important}
+.rank-toolbar .btn{padding:6px 9px!important;font-size:10px!important;min-height:30px}
+#myRooms .card{padding:10px!important;margin-top:8px!important;border-radius:9px!important}
+#myRooms .roomcode{font-size:20px!important;margin:4px 0!important}
+#myRooms .eyebrow{font-size:8px!important}
+#myRooms .muted{font-size:10px!important}
+@media(max-width:760px){
+ #rankTablePanel{padding:7px!important}
+ #rankTablePanel th,#rankTablePanel td{padding:5px 4px!important;font-size:9px!important}
+ #rankTablePanel th{font-size:7px!important}
+}
 
-        .screen {
-            display: none;
-            width: 100%;
-            min-height: 100vh;
-        }
-        .screen.active {
-            display: flex;
-        }
-
-        /* TELA DE LOGIN */
-        #auth-screen {
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            background: radial-gradient(circle at center, #121526 0%, #06070a 100%);
-        }
-        .auth-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 40px;
-            border-radius: var(--radius);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        }
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 24px;
-        }
-        .auth-card input {
-            width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 14px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-        .divider {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            margin: 16px 0;
-        }
-        .error-msg {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--danger);
-            color: var(--danger);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            margin-bottom: 16px;
-        }
-
-        /* LAYOUT PRINCIPAL */
-        #app-screen {
-            flex-direction: column;
-        }
-        .app-header {
-            background: rgba(15, 17, 26, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .header-brand h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 1px;
-        }
-        .badge {
-            background: var(--primary);
-            color: white;
-            font-size: 0.65rem;
-            padding: 4px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-        .app-nav {
-            display: flex;
-            gap: 8px;
-        }
-        .nav-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: 0.2s;
-        }
-        .nav-btn:hover, .nav-btn.active {
-            background: var(--bg-input);
-            color: var(--text-main);
-        }
-        .header-user {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 0.9rem;
-        }
-        .btn-icon {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-icon:hover { color: var(--danger); }
-
-        .app-content {
-            flex: 1;
-            padding: 32px;
-            overflow-y: auto;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        .view {
-            display: none;
-        }
-        .view.active {
-            display: block;
-        }
-
-        /* BOTÕES & AÇÕES */
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.95rem;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #6d28d9);
-            color: white;
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-        }
-        .btn-primary:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-        .btn-secondary {
-            background: var(--bg-input);
-            color: var(--text-main);
-            border: 1px solid var(--border);
-        }
-        .btn-secondary:hover {
-            border-color: var(--primary);
-        }
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        /* GALERIA DE CARDS (ESTILO FUTURISTA / FIFA UT) */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 28px;
-        }
-
-        .player-card {
-            background: linear-gradient(145deg, #131722, #0b0d14);
-            border-radius: 18px;
-            border: 2px solid var(--border);
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .player-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.15);
-        }
-
-        /* Raridades bordas e glows */
-        .card-comum { border-color: var(--comum); }
-        .card-raro { border-color: var(--raro); box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
-        .card-epico { border-color: var(--epico); box-shadow: 0 0 25px rgba(168, 85, 247, 0.3); }
-        .card-lendario { border-color: var(--lendario); box-shadow: 0 0 30px rgba(245, 158, 11, 0.35); }
-        .card-mitico { border-color: var(--mitico); box-shadow: 0 0 35px rgba(239, 68, 68, 0.4); }
-
-        .card-header-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-        .card-ger-box {
-            text-align: left;
-        }
-        .card-ger {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            line-height: 1;
-        }
-        .card-pos {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        .card-rarity-badge {
-            font-size: 0.65rem;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        .badge-comum { background: rgba(156, 163, 175, 0.2); color: var(--comum); }
-        .badge-raro { background: rgba(59, 130, 246, 0.2); color: var(--raro); }
-        .badge-epico { background: rgba(168, 85, 247, 0.2); color: var(--epico); }
-        .badge-lendario { background: rgba(245, 158, 11, 0.2); color: var(--lendario); }
-        .badge-mitico { background: rgba(239, 68, 68, 0.2); color: var(--mitico); }
-
-        .card-avatar-container {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 12px auto;
-            border-radius: 50%;
-            background: var(--bg-input);
-            border: 2px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            font-size: 2.2rem;
-        }
-        .card-avatar-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card-player-name {
-            text-align: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-        }
-        .card-stat-item {
-            text-align: center;
-        }
-        .card-stat-label {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        .card-stat-val {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-
-        /* TABELAS E CARDS DE SUPORTE */
-        .card-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px;
-        }
-        .table-card {
-            overflow-x: auto;
-            padding: 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-        th, td {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
-        }
-        th {
-            color: var(--text-muted);
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.02);
-        }
-        tr:hover td {
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        /* MODAIS */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            width: 100%;
-            max-width: 480px;
-        }
-        .modal-content h3 {
-            margin-bottom: 16px;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .form-group {
-            margin-bottom: 14px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px 14px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        @media(max-width: 768px) {
-            .app-header { flex-direction: column; gap: 12px; padding: 16px; }
-            .app-nav { width: 100%; overflow-x: auto; padding-bottom: 4px; }
-        }
-    </style>
+/* MOD NEO — PLAYER CARD com tipografia ajustada e legível */
+#mapPlayerCards.map-player-grid{
+ display:grid!important;
+ grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),270px))!important;
+ justify-content:center!important;
+ justify-items:center!important;
+ align-items:start!important;
+ width:100%!important;
+ gap:16px!important;
+ margin:16px auto 0!important;
+}
+#mapPlayerCards .neo-card{
+ position:relative!important;
+ isolation:isolate!important;
+ width:100%!important;
+ max-width:270px!important;
+ min-width:0!important;
+ aspect-ratio:0.65!important;
+ height:auto!important;
+ min-height:400px!important;
+ padding:0!important;
+ margin:0 auto!important;
+ border:0!important;
+ border-radius:0!important;
+ overflow:hidden!important;
+ background:#08060e!important;
+ filter:drop-shadow(0 10px 18px rgba(0,0,0,.65))!important;
+ clip-path:polygon(
+  0 4%,9% 6%,15% 1%,27% 3%,36% 0%,50% 1%,
+  64% 0%,73% 3%,85% 1%,91% 6%,100% 4%,
+  97% 19%,100% 30%,97% 48%,100% 67%,96% 86%,
+  100% 94%,88% 100%,72% 97%,50% 100%,28% 97%,
+  12% 100%,0 94%,4% 86%,0 67%,3% 48%,0 30%,3% 19%
+ )!important;
+}
+#mapPlayerCards .neo-card-bg{
+ position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:
+  radial-gradient(ellipse at 50% 35%,rgba(132,34,255,.3),transparent 48%),
+  repeating-linear-gradient(132deg,transparent 0 20px,rgba(125,34,255,.08) 21px 24px,transparent 25px 46px),
+  linear-gradient(180deg,#07050c 0%,#160923 48%,#07050d 100%);
+}
+#mapPlayerCards .neo-card:before{
+ content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+ border:2px solid transparent;
+ background:linear-gradient(135deg,#f4dfff 0%,#c16aff 12%,#57139a 28%,#210b38 45%,#a64bfa 66%,#3a0b65 83%,#f1d5ff 100%) border-box;
+ clip-path:inherit!important;
+}
+#mapPlayerCards .neo-card-content{
+ position:relative;z-index:1;box-sizing:border-box;width:100%;height:100%;
+ padding:12px 13px 10px!important;
+ display:flex;flex-direction:column;gap:7px!important;
+}
+#mapPlayerCards .neo-score-panel{
+ flex:0 0 auto!important;
+ min-height:58px!important;
+ position:relative;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;overflow:hidden;
+ padding:5px 8px!important;
+ background:linear-gradient(180deg,#100b19,#050408 78%);
+ border:2px solid #8c39e6;
+ clip-path:polygon(5% 0,95% 0,91% 16%,100% 50%,91% 84%,95% 100%,5% 100%,9% 84%,0 50%,9% 16%)!important;
+ box-shadow:0 0 16px #8e30ff66,inset 0 0 20px #7b24d533;
+}
+#mapPlayerCards .neo-score-panel:before{
+ content:"";position:absolute;inset:3px!important;border:1px solid #d5a2ff77;
+ clip-path:inherit;pointer-events:none;
+}
+#mapPlayerCards .neo-score-label{
+ color:#f4eaff;font:italic 800 9px Orbitron,sans-serif!important;
+ letter-spacing:1.4px!important;line-height:1.1!important;
+ text-shadow:0 0 9px #b35aff;
+}
+#mapPlayerCards .neo-score-value{
+ color:#fff;font:900 28px/1.05 Orbitron,sans-serif!important;
+ letter-spacing:-1px!important;line-height:1.05!important;
+ text-shadow:0 0 13px #a94dff,0 3px 0 #4b1a75;
+}
+#mapPlayerCards .neo-player-portrait{
+ flex:1 1 auto!important;
+ min-height:145px!important;
+ position:relative;overflow:hidden;
+ display:flex;align-items:center;justify-content:center;
+ background:
+  radial-gradient(ellipse at 50% 42%,rgba(119,27,226,.25),transparent 57%),
+  linear-gradient(135deg,#0a0710,#171022 55%,#09060d);
+ border-left:2px solid #9b45ec!important;
+ border-right:2px solid #9b45ec!important;
+ box-shadow:inset 0 0 25px #8d32dc33;
+}
+#mapPlayerCards .neo-player-portrait:before{
+ content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+ background:linear-gradient(90deg,rgba(117,35,209,.16),transparent 22%,transparent 78%,rgba(117,35,209,.16)),
+ linear-gradient(0deg,rgba(7,4,12,.96),transparent 36%,transparent 84%,rgba(7,4,12,.2));
+}
+#mapPlayerCards .neo-player-avatar{
+ position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%!important;
+ filter:saturate(1.08) contrast(1.06);
+}
+#mapPlayerCards .neo-avatar-empty{
+ width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ color:#c78aff;font:900 32px Orbitron,sans-serif;text-shadow:0 0 16px #a13bff;
+ background:radial-gradient(circle,#442067,#0c0812 65%);
+}
+#mapPlayerCards .neo-avatar-empty small{font-size:9px;letter-spacing:4px}
+#mapPlayerCards .neo-side-chain{display:none!important}
+#mapPlayerCards .neo-player-identity{
+ position:absolute;z-index:3;left:6%;right:6%;bottom:2px!important;
+ display:flex;flex-direction:column;align-items:center;text-align:center;
+ padding:20px 6px 6px!important;background:linear-gradient(0deg,#09060ef5 55%,transparent);
+}
+#mapPlayerCards .neo-player-identity b{
+ max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+ color:#fff;font:800 12.5px/1.2 Orbitron,sans-serif!important;
+ text-shadow:0 0 9px #a744ff;
+}
+#mapPlayerCards .neo-player-identity small{
+ font-size:9px!important;line-height:1.2!important;color:#cbb0e6;margin-top:2px;
+}
+#mapPlayerCards .neo-role-panel{
+ flex:0 0 auto!important;
+ min-height:42px!important;
+ padding:5px 10px!important;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:linear-gradient(100deg,#09060f,#21102f 50%,#09060f);
+ border-top:2px solid #a448ff;border-bottom:2px solid #a448ff;
+ clip-path:polygon(0 0,8% 0,13% 13%,87% 13%,92% 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%)!important;
+}
+#mapPlayerCards .neo-role-panel small{
+ color:#e4d3f5;font:italic 800 7.5px/1.1 Orbitron,sans-serif!important;
+ letter-spacing:1.3px!important;
+}
+#mapPlayerCards .neo-role-panel strong{
+ max-width:94%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+ color:#c97aff;font:italic 900 13.5px/1.15 Orbitron,sans-serif!important;
+ letter-spacing:.3px!important;margin-top:2px;
+ text-shadow:0 0 12px #a12aff;
+}
+#mapPlayerCards .neo-stat-grid{
+ flex:0 0 auto!important;
+ min-height:60px!important;
+ display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+ background:rgba(5,3,9,.95);border:1px solid #9b48e7!important;
+ box-shadow:0 0 13px #872de344,inset 0 0 15px #7d29c322!important;
+}
+#mapPlayerCards .neo-stat{
+ min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ gap:3px!important;padding:5px 2px!important;text-align:center;
+ border-right:1px solid #7e31c5;
+}
+#mapPlayerCards .neo-stat:last-child{border-right:0}
+#mapPlayerCards .neo-stat-icon{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:17px!important;height:17px!important;
+ color:#c77aff!important;filter:drop-shadow(0 0 5px #a438ff)!important;
+}
+#mapPlayerCards .neo-stat-icon svg{
+ display:block!important;width:100%!important;height:100%!important;
+ fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;
+ stroke-linecap:round!important;stroke-linejoin:round!important;
+}
+#mapPlayerCards .neo-stat small{
+ max-width:100%;font:800 6.5px/1.1 Orbitron,sans-serif!important;
+ color:#f5effa;letter-spacing:0!important;white-space:nowrap;
+}
+#mapPlayerCards .neo-stat b{
+ max-width:100%;font:900 9.5px/1.15 Orbitron,sans-serif!important;
+ color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+#mapPlayerCards .neo-card-footer{
+ flex:0 0 auto!important;
+ display:flex;justify-content:space-between;align-items:center;
+ padding:0 4px;
+ color:#b98bdd;font:700 6px/1.1 Orbitron,sans-serif!important;
+ letter-spacing:.9px!important;opacity:.88;
+}
+@media(max-width:680px){
+ #mapPlayerCards.map-player-grid{
+  grid-template-columns:minmax(0,260px)!important;
+  justify-content:center!important;
+  gap:14px!important;
+ }
+ #mapPlayerCards .neo-card{
+  max-width:260px!important;
+  min-height:390px!important;
+ }
+ #mapPlayerCards .neo-score-value{font-size:26px!important}
+ #mapPlayerCards .neo-player-identity b{font-size:12px!important}
+ #mapPlayerCards .neo-role-panel strong{font-size:13px!important}
+ #mapPlayerCards .neo-stat small{font-size:6px!important}
+ #mapPlayerCards .neo-stat b{font-size:9px!important}
+}
+@media(prefers-reduced-motion:reduce){#mapPlayerCards .neo-card{animation:none!important}}
+.admin-login-panel{margin:12px 0 16px!important;border-color:#8b5bb5!important}
+.admin-login-panel .field{max-width:420px}
+</style>
 </head>
 <body>
-
-    <!-- TELA DE AUTENTICAÇÃO -->
-    <div id="auth-screen" class="screen active">
-        <div class="auth-card">
-            <h1 class="logo">NEO ELITE</h1>
-            <p class="subtitle">Sistema de Cards & Estatísticas KPDV</p>
-            <div id="auth-error" class="error-msg hidden"></div>
-            <button id="btn-google-login" class="btn btn-primary">Entrar com Google</button>
-            <div class="divider">ou entre com e-mail</div>
-            <form id="form-email-login">
-                <input type="email" id="login-email" placeholder="E-mail" required>
-                <input type="password" id="login-password" placeholder="Senha" required>
-                <button type="submit" class="btn btn-secondary">Entrar no Sistema</button>
-            </form>
-        </div>
+<section id="auth" class="auth-wrap"><div class="auth-card">
+ <div class="logo">MOD NEO</div><p class="sub">SEU PAINEL DE CONTROLE</p>
+ <div id="loginForm"><h2>Entrar</h2><p class="muted">Entre na sua conta para continuar.</p>
+  <div class="field"><label>Usuário</label><input id="loginUser" autocomplete="username" placeholder="Seu usuário"></div>
+  <div class="field"><label>Senha</label><input id="loginPass" type="password" autocomplete="current-password" placeholder="Sua senha"></div>
+  <button class="btn full" onclick="login()">FAZER LOGIN</button><div id="loginError" class="error"></div>
+  <p class="switch">Não tem uma conta? <span class="link" onclick="showRegister()">Criar conta</span></p></div>
+ <div id="registerForm" class="hidden"><h2>Criar conta</h2><p class="muted">Cadastre-se para configurar seu perfil.</p>
+  <div class="field"><label>Nome de usuário</label><input id="regUser" autocomplete="username" placeholder="Escolha um usuário"></div>
+  <div class="field"><label>Senha</label><input id="regPass" type="password" autocomplete="new-password" placeholder="Crie uma senha"></div>
+  <div class="field"><label>Confirmar senha</label><input id="regConfirm" type="password" autocomplete="new-password" placeholder="Digite novamente"></div>
+  <button class="btn full" onclick="register()">CRIAR CONTA</button><div id="regError" class="error"></div>
+  <p class="switch">Já tem uma conta? <span class="link" onclick="showLogin()">Fazer login</span></p></div>
+</div></section>
+<section id="app" class="app hidden">
+ <header class="topbar"><div class="brand">MOD NEO</div><div class="user-mini"><img id="miniAvatar" class="avatar" alt=""><span id="miniName">Usuário</span><button class="navbtn" style="width:auto;margin:0" onclick="logout()">SAIR</button></div></header>
+ <div class="layout"><aside class="sidebar">
+  <button class="navbtn" data-page="ap" onclick="go('ap',this)">◈ &nbsp; MODO AP</button>
+  <button class="navbtn" data-page="map" onclick="go('map',this)">⌖ &nbsp; MODO MAP</button>
+  <button class="navbtn" data-page="ranking" onclick="go('ranking',this)">♛ &nbsp; RANKING</button>
+  <button class="navbtn active" data-page="config" onclick="go('config',this)">⚙ &nbsp; CONFIG</button>
+ </aside><main class="main">
+  <section id="configPage"><div class="eyebrow">PERSONALIZAÇÃO</div><h1 class="heading">Configurações do perfil</h1><p class="muted">Essas informações serão utilizadas em todos os modos do sistema.</p>
+   <div class="panel"><div class="profile-head"><img id="profilePreview" class="big-avatar" alt="Foto de perfil"><div><h3 style="margin-bottom:2px">Sua imagem</h3><p class="muted" style="margin-bottom:0;font-size:13px">Escolha uma foto para representar seu perfil.</p><label class="upload">ALTERAR IMAGEM<input id="avatarFile" type="file" accept="image/*" onchange="previewImage(event)"></label></div></div>
+    <div class="grid2"><div class="field"><label>Nome de exibição</label><input id="displayName" maxlength="24" placeholder="Como você quer ser chamado?"></div><div class="field"><label>Nome de usuário</label><input id="username" disabled></div></div>
+    <div class="field"><label>Biografia</label><textarea id="bio" maxlength="180" placeholder="Conte um pouco sobre você..."></textarea><div class="notice"><span id="bioCount">0</span>/180 caracteres</div></div>
+    <div class="actions"><button class="btn" onclick="saveProfile()">SALVAR ALTERAÇÕES</button><button class="btn secondary" onclick="resetProfile()">RESTAURAR</button></div><p id="saveMessage" class="notice" role="status"></p>
+   </div>
+  </section>
+  <section id="apPage" class="hidden"><div class="eyebrow">SALAS E PARTIDAS</div><h1 class="heading">MODO AP</h1><p class="muted">Crie uma sala ou entre usando um código de 6 caracteres.</p>
+   <div class="panel"><h2>Entrar em uma sala</h2><div class="grid2"><div class="field"><label>Código da sala</label><input id="joinCode" maxlength="6" placeholder="Ex.: A7K2Q9" style="text-transform:uppercase"></div><div class="field" style="display:flex;align-items:end"><button class="btn full" onclick="joinRoom()">ENTRAR NA SALA</button></div></div>
+    <div class="btnrow"><button class="btn" onclick="openCreate()">+ CRIAR SALA</button></div>
+   </div><div class="sectionhead" style="margin-top:28px"><h2>Minhas salas</h2></div><div id="myRooms"></div>
+  </section>
+  <section id="mapPage" class="hidden"><div class="eyebrow">PERFIS COMPETITIVOS</div><h1 class="heading">MODO MAP</h1><p class="muted">Escolha sua função e acompanhe o desempenho de todos os jogadores.</p>
+   <div class="panel" id="mapRolePanel"><div class="map-section-head"><div><h2>Minha função</h2><p class="muted">A função escolhida ficará vinculada ao seu perfil.</p></div><span class="tag">PLAYER</span></div><div id="mapRolePicker" class="role-grid"></div><div id="mapRoleStatus" class="notice" aria-live="polite"></div></div>
+   <div class="sectionhead" style="margin-top:26px"><h2>Cards dos jogadores</h2><p class="muted">Todos podem visualizar as estatísticas de todos.</p></div><div id="mapPlayerCards" class="map-player-grid"></div></section>
+  <section id="rankingPage" class="hidden"><div class="eyebrow">CLASSIFICAÇÃO</div><h1 class="heading">RANKING</h1><p class="muted">Escolha a modalidade para consultar a classificação.</p><div class="rank-toolbar"><button class="btn secondary" id="rankAPBtn" onclick="setRankingMode('ap')">MOD AP</button><button class="btn secondary" id="rankMAPBtn" onclick="setRankingMode('map')">MOD MAP</button><button class="btn ghost" id="adminEntryBtn" onclick="openAdminEntry()">ADMIN</button></div><section id="adminLoginPanel" class="panel admin-login-panel hidden">
+<div class="eyebrow">ACESSO RESTRITO</div>
+<h2>ENTRAR COMO ADMIN</h2>
+<p class="muted">O painel é liberado somente quando a conta autenticada corresponde ao UID administrativo autorizado no Firebase.</p>
+<p id="adminCodeError" class="error"></p><div class="btnrow"><button class="btn secondary" onclick="closeAdminLogin()">VOLTAR</button></div>
+</section><div id="rankTablePanel" class="panel"><div class="tablewrap"><table><thead id="rankHead"></thead><tbody id="rankRows"></tbody></table></div></div><section id="adminPanel" class="panel hidden"><div class="eyebrow">CONTROLE ADMINISTRATIVO</div><h2>ADMIN</h2><p class="muted">Atualize somente os dados administrados manualmente.</p><div class="field"><label>Jogador</label><select id="adminPlayer" onchange="loadAdminPlayer()"></select></div><div id="adminFields"></div><div class="btnrow"><button class="btn" onclick="saveAdminStats()">SALVAR ESTATÍSTICAS</button><button class="btn secondary" onclick="closeAdminPanel()">VOLTAR AO RANKING</button></div><p class="notice" id="adminMessage"></p></section>
+ </main></div>
+</section>
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div class="modalbox"><button class="close" onclick="closeModal()">FECHAR</button><div id="modalContent" style="padding-top:22px"></div></div></div>
+<script>
+const ADMIN_UID='2Aq4aFE9CBZGqLX9aG4BylFDe1v2';
+let rankingMode='ap';
+let pendingAvatar='';
+const $=id=>document.getElementById(id);
+var _usersCache={},_roomsCache={},_authUser=null,_myUsername='',_userUnsub=null,_roomUnsub=null,_userSnapshot={},_roomSnapshot={};
+function users(){return _usersCache} function rooms(){return _roomsCache}
+function me(){let n=_myUsername;return n&&_usersCache[n]?{username:n,..._usersCache[n]}:null}
+function saveUsers(v){
+ const old=_userSnapshot||{};_usersCache=v;
+ for(const [name,record] of Object.entries(v)){
+  if(JSON.stringify(old[name])===JSON.stringify(record))continue;
+  if(!_authUser)return;
+  const isSelf=name===_myUsername, isAdmin=_authUser.uid===ADMIN_UID;
+  if(!isSelf&&!isAdmin)continue;
+  window.__neoFirebase?.saveUser(name,record,isSelf,isAdmin).catch(e=>console.error('Falha ao salvar usuário',e));
+ }
+ _userSnapshot=JSON.parse(JSON.stringify(v));
+}
+function saveRooms(v){
+ const old=_roomSnapshot||{};_roomsCache=v;
+ for(const [id,record] of Object.entries(v)){
+  if(JSON.stringify(old[id])===JSON.stringify(record))continue;
+  window.__neoFirebase?.saveRoom(id,record).catch(e=>{console.error('Falha ao salvar sala',e);alert('Não foi possível sincronizar a sala. Confira as permissões do Firestore.');});
+ }
+ for(const id of Object.keys(old))if(!v[id])window.__neoFirebase?.deleteRoom(id).catch(e=>console.error(e));
+ _roomSnapshot=JSON.parse(JSON.stringify(v));
+}
+function showRegister(){$('loginForm').classList.add('hidden');$('registerForm').classList.remove('hidden')}
+function showLogin(){$('registerForm').classList.add('hidden');$('loginForm').classList.remove('hidden')}
+async function register(){let n=$('regUser').value.trim().toLowerCase(),p=$('regPass').value,c=$('regConfirm').value;$('regError').textContent='';
+ if(!/^[a-z0-9_]{3,18}$/.test(n))return $('regError').textContent='Use de 3 a 18 caracteres: letras, números ou _.';
+ if(p.length<6)return $('regError').textContent='A senha precisa ter pelo menos 6 caracteres.';
+ if(p!==c)return $('regError').textContent='As senhas não são iguais.';
+ try{await window.__neoFirebase.ready;await window.__neoFirebase.register(n,p);$('regPass').value='';$('regConfirm').value='';}
+ catch(e){console.error(e);$('regError').textContent=e.code==='auth/email-already-in-use'?'Esse usuário já existe.':e.code==='nickname/taken'?'Esse usuário já existe.':'Não foi possível criar a conta. Verifique a conexão e as configurações do Firebase.';}}
+async function login(){let n=$('loginUser').value.trim().toLowerCase(),p=$('loginPass').value;$('loginError').textContent='';try{await window.__neoFirebase.ready;await window.__neoFirebase.login(n,p);$('loginPass').value='';}catch(e){console.error(e);$('loginError').textContent='Usuário ou senha incorretos.';}}
+function openApp(){let c=me();if(!c)return;$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('username').value=c.username;$('displayName').value=c.profile.displayName||c.username;$('bio').value=c.profile.bio||'';pendingAvatar=c.profile.avatar||'';renderAvatar();countBio();go('config',document.querySelector('[data-page="config"]'))}
+function renderAvatar(){let c=me(),src=pendingAvatar||'';$('profilePreview').src=src;$('miniAvatar').src=src;$('miniName').textContent=$('displayName').value||c?.profile.displayName||c?.username||'Usuário'}
+async function previewImage(e){let f=e.target.files?.[0];if(!f)return;if(!f.type.startsWith('image/'))return alert('Selecione uma imagem.');if(f.size>8*1024*1024){e.target.value='';return alert('A imagem original deve ter no máximo 8 MB.')}try{pendingAvatar=await compressAvatar(f);renderAvatar();$('saveMessage').textContent='Foto pronta. Toque em SALVAR ALTERAÇÕES para sincronizar.'}catch(err){console.error(err);alert('Não foi possível abrir essa imagem. Tente outra foto.')}}
+function compressAvatar(file){return new Promise((resolve,reject)=>{let reader=new FileReader();reader.onerror=reject;reader.onload=()=>{let img=new Image();img.onerror=reject;img.onload=()=>{let max=256,scale=Math.min(1,max/Math.max(img.width,img.height)),w=Math.max(1,Math.round(img.width*scale)),h=Math.max(1,Math.round(img.height*scale)),canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;let ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);let data=canvas.toDataURL('image/jpeg',0.68);if(data.length>180000){let scale2=192/Math.max(w,h);canvas.width=Math.max(1,Math.round(w*scale2));canvas.height=Math.max(1,Math.round(h*scale2));ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,canvas.width,canvas.height);data=canvas.toDataURL('image/jpeg',0.55)}if(data.length>200000)return reject(new Error('avatar-too-large'));resolve(data)};img.src=reader.result};reader.readAsDataURL(file)})}
+async function saveProfile(){let c=me();if(!c)return;let name=$('displayName').value.trim();if(!name)return $('saveMessage').textContent='Digite um nome para seu perfil.';let avatar=pendingAvatar;if(avatar.length>200000)return $('saveMessage').textContent='A foto ficou grande demais. Escolha outra imagem.';let u=users();u[c.username].profile={displayName:name,bio:$('bio').value.trim(),avatar};saveUsers(u);renderAvatar();$('saveMessage').textContent='Perfil enviado para sincronização. Aguarde a confirmação.'}
+function resetProfile(){let c=me();if(!c)return;$('displayName').value=c.profile.displayName||c.username;$('bio').value=c.profile.bio||'';pendingAvatar=c.profile.avatar||'';$('avatarFile').value='';renderAvatar();countBio();$('saveMessage').textContent='Alterações não salvas foram descartadas.'}
+function countBio(){$('bioCount').textContent=$('bio').value.length}
+$('bio').addEventListener('input',countBio);$('displayName').addEventListener('input',()=>{$('miniName').textContent=$('displayName').value||'Usuário'});
+function go(page,btn){document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');['config','ap','map','ranking'].forEach(p=>$ (p+'Page').classList.toggle('hidden',p!==page));if(page==='ap')renderMyRooms();if(page==='ranking')renderRanking();if(page==='map')renderMap()}
+async function logout(){await window.__neoFirebase.logout();$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('loginPass').value='';showLogin()}
+function money(c){return (c/100).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' pts'}
+function parseCents(v){let s=String(v).trim().replace(/\s/g,'');if(!s)return NaN;if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');let n=Number(s);return Number.isFinite(n)&&n>=0?Math.round(n*100):NaN}
+function distributeCents(total,n,priority){let sign=Math.sign(total),abs=Math.abs(total),base=Math.floor(abs/n),rem=abs%n,a=Array(n).fill(base*sign);for(let i=0;i<rem;i++)a[(priority+i)%n]+=sign;return a}
+function code(){let chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s='';for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];return s}
+function profileFor(username){let u=users()[username];return {username,name:u?.profile?.displayName||username,pic:u?.profile?.avatar||''}}
+function openCreate(){openModal(`<div class="eyebrow">NOVA OPERAÇÃO</div><h2>Criar sala</h2><p class="muted">Escolha a quantidade de participantes.</p><div class="cards" style="grid-template-columns:repeat(3,1fr)"><button class="btn" onclick="createRoom(2)">X2<br><small>2 jogadores</small></button><button class="btn" onclick="createRoom(3)">X3<br><small>3 jogadores</small></button><button class="btn" onclick="createRoom(4)">X4<br><small>4 jogadores</small></button></div>`)}
+function createRoom(size){let all=rooms(),id;do{id=code()}while(all[id]);let c=me();all[id]={code:id,size,creator:c.username,players:[c.username],status:'waiting',history:[],current:null,lastAp:null,lastFee:null,lastHost:null,created:Date.now()};saveRooms(all);closeModal();openRoom(id)}
+function joinRoom(){let id=$('joinCode').value.trim().toUpperCase(),all=rooms(),r=all[id],c=me();if(!/^[A-HJ-NP-Z2-9]{6}$/.test(id))return alert('Digite um código válido de 6 caracteres.');if(!r)return alert('Sala não encontrada. Confira o código e tente novamente.');if(r.status==='closed')return alert('Esta sala foi encerrada.');if(r.players.includes(c.username))return openRoom(id);if(r.players.length>=r.size)return alert('A sala está lotada.');r.players.push(c.username);saveRooms(all);$('joinCode').value='';openRoom(id)}
+function renderMyRooms(){let c=me(),all=rooms(),list=Object.values(all).filter(r=>r.players.includes(c.username)&&r.status!=='closed');$('myRooms').innerHTML=list.length?list.map(r=>`<div class="card" onclick="openRoom('${r.code}')"><div class="eyebrow">SALA ATIVA</div><div class="roomcode">${r.code}</div><div class="muted">X${r.size} · ${r.players.length}/${r.size} jogadores</div><span class="tag">${r.players.length===r.size?'LOBBY COMPLETO':'AGUARDANDO'}</span></div>`).join(''):'<div class="empty">Nenhuma sala ativa.</div>'}
+function openRoom(id){let r=rooms()[id];if(!r)return;let c=me(),creator=r.creator===c.username,full=r.players.length===r.size;
+ let roster=r.players.map(n=>{let p=profileFor(n);return `<div class="player"><img class="avatar" src="${p.pic}" alt=""><div><b>${esc(p.name)}</b><small>${n===r.creator?'CRIADOR':'JOGADOR'}</small></div></div>`}).join('');
+ let body=`<div class="eyebrow">LOBBY COMPARTILHADO</div><h2>Sala ${r.code} <span class="tag">X${r.size}</span></h2><p class="muted">${r.status==='closed'?'SALA ENCERRADA':full?'LOBBY COMPLETO':'AGUARDANDO JOGADORES'} · ${r.players.length}/${r.size}</p><div class="resultbox"><b>Código para convidar: <span class="gold">${r.code}</span></b><div class="btnrow"><button class="btn secondary" onclick="copyCode('${r.code}')">COPIAR CÓDIGO</button></div></div><div class="playerlist">${roster}</div>`;
+ if(full&&r.status!=='closed'&&!r.current&&!r.history.length&&creator)body+=`<div class="btnrow"><button class="btn" onclick="configure('${id}')">CONFIGURAR PRIMEIRA PARTIDA</button></div>`;
+ if(r.current)body+=`<div class="resultbox"><div class="eyebrow">AP VIRTUAL CONFIGURADO</div><div class="resultrow"><span>Valor AP</span><b>${money(r.current.ap)}</b></div><div class="resultrow"><span>Taxa</span><b>${money(r.current.fee)}</b></div><div class="resultrow"><span>HOST</span><b>${esc(r.current.host?profileFor(r.current.host).name:'Sem HOST nesta rodada')}</b></div>${creator?`<div class="btnrow"><button class="btn" onclick="recordResult('${id}','WIN')">WIN</button><button class="btn danger" onclick="recordResult('${id}','NO WIN')">NO WIN</button></div>`:'<p class="muted">Aguardando o criador registrar o resultado.</p>'}</div>`;
+ let individual=r.players.map((name,idx)=>{let profit=0,loss=0;(r.history||[]).forEach(h=>{let j=(h.players||[]).indexOf(name),v=j>=0?(h.shares||[])[j]||0:0;if(v>0)profit+=v;if(v<0)loss+=Math.abs(v)});return `<div class="resultrow"><span><b>${esc(profileFor(name).name)}</b><small>Lucro individual: <b class="green">${money(profit)}</b><br>Prejuízo individual: <b class="red">${money(loss)}</b></small></span><b class="${profit-loss>=0?'green':'red'}">${money(profit-loss)}</b></div>`}).join('');
+ let hist=(r.history||[]).map((h,i)=>{let per=(h.players||[]).map((name,j)=>`<div class="resultrow"><span>${esc(profileFor(name).name)}</span><b class="${(h.shares||[])[j]>=0?'green':'red'}">${(h.shares||[])[j]>=0?'+':''}${money((h.shares||[])[j]||0)}</b></div>`).join('');return `<div class="resultrow"><span>#${i+1} · ${h.result}</span><b class="${h.result==='WIN'?'green':'red'}">${h.result==='WIN'?'+':''}${money(h.total)}</b></div><div class="muted" style="font-size:12px;margin:4px 0 10px">Resultado individual de cada jogador:</div>${per}<hr style="border:0;border-top:1px solid var(--line);margin:12px 0">`}).join('')||'<p class="muted">Nenhuma partida registrada.</p>';
+ body+=`<h3>Lucro e prejuízo individual acumulados</h3><div class="resultbox">${individual||'<p class="muted">Nenhum jogador.</p>'}</div><h3>Histórico da sala</h3><div class="resultbox">${hist}</div>`;
+ if(r.status!=='closed'&&creator){if(!r.current&&r.history.length)body+=`<div class="btnrow"><button class="btn" onclick="configure('${id}')">INICIAR NOVA RODADA</button></div>`;body+=`<div class="btnrow"><button class="btn danger" onclick="closeRoom('${id}')">ENCERRAR SALA</button></div>`}
+ if(r.status==='closed')body+='<p class="gold">Sala encerrada. O histórico foi preservado.</p>';
+ openModal(body)}
+function configure(id){let r=rooms()[id],creator=r.creator===me().username,first=!r.history.length;if(!creator||r.status==='closed'||r.current||r.players.length!==r.size)return alert('Somente o criador pode configurar uma sala completa.');let opts=r.players.map(n=>`<option value="${n}" ${r.lastHost===n?'selected':''}>${esc(profileFor(n).name)}</option>`).join('');
+ openModal(`<div class="eyebrow">MATCH SETUP</div><h2>Configurar AP virtual</h2><p class="muted">Os pontos são apenas demonstrativos, sem dinheiro ou pagamentos reais.</p><div class="formgrid"><div class="field"><label>Valor do AP (pontos)</label><input id="apValue" inputmode="decimal" placeholder="Ex.: 150,00" value="${r.lastAp!=null?(r.lastAp/100).toFixed(2).replace('.',','):''}"></div><div class="field"><label>Taxa (pontos)</label><input id="apFee" inputmode="decimal" placeholder="Ex.: 1,00" value="${r.lastFee!=null?(r.lastFee/100).toFixed(2).replace('.',','):''}"></div>${first?`<div class="field" style="grid-column:1/-1"><label>HOST (somente na primeira rodada)</label><select id="apHost">${opts}</select></div>`:'<div class="field" style="grid-column:1/-1"><label>HOST</label><input disabled value="Não existe HOST após a primeira rodada"></div>'}</div><div class="btnrow"><button class="btn" onclick="confirmSetup('${id}')">REVISAR CONFIGURAÇÃO</button></div>`)}
+function confirmSetup(id){let ap=parseCents($('apValue').value),fee=parseCents($('apFee').value),r=rooms()[id];if(!Number.isSafeInteger(ap)||!Number.isSafeInteger(fee))return alert('Informe valores válidos.');let host=r.history.length===0?$('apHost').value:null;
+ openModal(`<div class="eyebrow">CONFIRMAÇÃO</div><h2>Revisar partida</h2><div class="resultbox"><div class="resultrow"><span>Modalidade</span><b>X${r.size}</b></div><div class="resultrow"><span>Valor AP</span><b>${money(ap)}</b></div><div class="resultrow"><span>Taxa</span><b>${money(fee)}</b></div><div class="resultrow"><span>HOST</span><b>${host?esc(profileFor(host).name):'Não existe após a primeira rodada'}</b></div></div><div class="btnrow"><button class="btn" onclick="startMatch('${id}',${ap},${fee},'${host||''}')">CONFIRMAR E INICIAR</button><button class="btn secondary" onclick="configure('${id}')">VOLTAR</button></div>`)}
+function startMatch(id,ap,fee,host){let all=rooms(),r=all[id];if(!r||r.creator!==me().username||r.current||r.status==='closed'||r.players.length!==r.size||(!r.history.length&&!host)||(r.history.length&&host))return alert('Não foi possível iniciar esta rodada.');r.current={ap,fee,host:host||null};r.lastAp=ap;r.lastFee=fee;r.lastHost=host||null;saveRooms(all);openRoom(id)}
+function recordResult(id,result){let all=rooms(),r=all[id];if(!r||r.creator!==me().username||!r.current||r.status==='closed')return;let c=r.current,n=r.players.length,first=!r.history.length,hi=Math.max(0,r.players.indexOf(c.host)),shares,total;
+ if(result==='WIN'){let gross=2*c.ap-c.fee;if(first&&c.host){let remainder=gross-c.ap,each=Math.round(remainder/n);shares=Array(n).fill(each);shares[hi]+=c.ap;total=shares.reduce((a,b)=>a+b,0)}else{total=gross;shares=distributeCents(total,n,0)}}else{total=-(c.ap+c.fee);shares=distributeCents(total,n,hi)}
+ r.history.push({result,total,ap:c.ap,fee:c.fee,host:first?c.host:null,players:[...r.players],shares,date:Date.now()});r.current=null;saveRooms(all);openRoom(id);renderRanking()}
+function closeRoom(id){let all=rooms(),r=all[id];if(!r||r.creator!==me().username)return;if(!confirm('Encerrar e apagar esta sala definitivamente? Ela desaparecerá da lista e o histórico dela também será apagado.'))return;delete all[id];saveRooms(all);closeModal();renderMyRooms()}
+const MAP_ROLES=[
+ {id:'RUSH',label:'RUSH',desc:'Entrada e pressão',icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M27 3 10 27h11l-2 18 19-27H26z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round"/></svg>'},
+ {id:'SUP',label:'SUP',desc:'Suporte da equipe',icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 40 10v12c0 10-6.5 17-16 22C14.5 39 8 32 8 22V10z" fill="none" stroke="currentColor" stroke-width="3.2"/><path d="M24 14v18M15 23h18" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg>'},
+ {id:'GRAN',label:'GRAN',desc:'Controle com granadas',icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="m18 12 5-5 9 3 2 7-4 4-13-4z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M15 18c-7 6-9 16-3 22s16 4 22-3 4-16-3-22" fill="none" stroke="currentColor" stroke-width="3"/><path d="m27 5 3-3m4 7 5-1" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'},
+ {id:'JOKER',label:'JOKER',desc:'Função flexível',icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 13c5 0 7-7 15-7s10 7 15 7l-3 25c-7-3-17-3-24 0z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M17 21h.1M31 21h.1M18 30c4 4 8 4 12 0" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'},
+ {id:'CPT',label:'CPT',desc:'Capitão da equipe',icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="m7 13 10 9 7-15 7 15 10-9-4 25H11z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M12 43h24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'}
+];
+let pendingMapRole='';
+function mapStatsOf(user){let m=user?.map?.stats||{};return {kills:Number(m.kills)||0,matches:Number(m.matches)||0,assists:Number(m.assists)||0,damage:Number(m.damage)||0,victories:Number(m.victories)||0}}
+function mapScore(st){let M=st.matches;if(M<=0)return 0;let performance=(st.kills+0.25*st.assists+st.damage/5000+1.5*st.victories)/(6*M);let consistency=Math.log2(1+M/30);return Math.max(0,Math.floor(10*Math.log2(1+performance/2)*consistency))}
+function renderMap(){
+ let current=me();if(!current)return;
+ let u=users(),mine=u[current.username]||{},map=mine.map||{};
+ let picker=$('mapRolePicker');
+ let hasRole=!!map.role;
+ picker.classList.toggle('role-picker-locked',hasRole);
+ picker.innerHTML=MAP_ROLES.map(r=>`<button class="role-choice ${map.role===r.id?'selected':''}" onclick="chooseMapRole('${r.id}')"><span class="role-icon">${r.icon}</span><b>${r.label}</b><small>${r.desc}</small></button>`).join('');
+ $('mapRoleStatus').innerHTML=hasRole?`Sua função atual: <b>${esc(map.role)}${map.role==='CPT'&&map.secondaryRole?' + '+esc(map.secondaryRole):''}</b><br><button class="btn secondary change-role-btn" onclick="toggleRolePicker()">ALTERAR FUNÇÃO</button>`:'Você ainda não escolheu uma função.';
+ let players=Object.entries(u).sort((a,b)=>String(a[1].profile?.displayName||a[0]).localeCompare(String(b[1].profile?.displayName||b[0])));
+ const statIcon={
+  kills:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4M4.2 4.2l2.7 2.7m10.2 10.2 2.7 2.7m0-15.6-2.7 2.7M6.9 17.1l-2.7 2.7"/></svg>',
+  matches:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3l2 3h6l2-3h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3l-2-2H9L7 5Z"/><path d="M7 9v4m-2-2h4m7-1h.01M18 13h.01"/></svg>',
+  damage:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-2 7H5l6 4-2 9 10-12h-6l2-8Z"/><path d="M3 4 5 6m14 12 2 2M2 14h3m14-9 2-2"/></svg>',
+  assists:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 12 2.2 2.2a2 2 0 0 0 2.8 0l4-4a2 2 0 0 0-2.8-2.8l-1.2 1.2"/><path d="m16 12 2.2 2.2a2 2 0 0 1-2.8 2.8l-2.1-2.1M8 12l-2.2 2.2a2 2 0 0 1-2.8-2.8l4-4a2 2 0 0 1 2.8 0l1.2 1.2"/><path d="m2 5 3-3m17 3-3-3"/></svg>',
+  victories:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v4a4 4 0 0 1-8 0V4Z"/><path d="M8 6H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 0v5m-4 3h8m-7-3h6"/></svg>'
+};
+ $('mapPlayerCards').innerHTML=players.map(([username,v])=>{
+  let m=v.map||{},st=mapStatsOf(v),role=m.role||'NÃO DEFINIDA';
+  let secondary=m.secondaryRole?` + ${esc(m.secondaryRole)}`:'';
+  let avatar=v.profile?.avatar||'';
+  return `<article class="map-player-card neo-card">
+   <div class="neo-card-bg"></div>
+   <div class="neo-card-content">
+    <header class="neo-score-panel">
+     <span class="neo-score-label">NEO SCORE</span>
+     <strong class="neo-score-value">${mapScore(st)}</strong>
+    </header>
+    <div class="neo-player-portrait">
+     ${avatar?`<img class="neo-player-avatar" src="${avatar}" alt="Avatar de ${esc(v.profile?.displayName||username)}">`:`<div class="neo-avatar-empty"><span>NEO</span><small>PLAYER</small></div>`}
+     <div class="neo-player-identity"><b>${esc(v.profile?.displayName||username)}</b><small>@${esc(username)}</small></div>
     </div>
-
-    <!-- APLICAÇÃO PRINCIPAL -->
-    <div id="app-screen" class="screen">
-        <header class="app-header">
-            <div class="header-brand">
-                <h2>NEO <span class="highlight">ELITE CARDS</span></h2>
-                <span id="user-role-badge" class="badge">Atleta</span>
-            </div>
-            <nav class="app-nav">
-                <button class="nav-btn active" data-target="view-cards">Galeria de Cards</button>
-                <button class="nav-btn" data-target="view-kpdv">Gestão KPDV</button>
-                <button class="nav-btn" data-target="view-admin" id="nav-admin" style="display:none;">Painel Admin</button>
-            </nav>
-            <div class="header-user">
-                <span id="user-display-name">Jogador</span>
-                <button id="btn-logout" class="btn-icon" title="Sair">⎋</button>
-            </div>
-        </header>
-
-        <main class="app-content">
-            <!-- VIEW: GALERIA DE CARDS -->
-            <section id="view-cards" class="view active">
-                <div class="action-bar">
-                    <h2>Plantel de Cards Ativos</h2>
-                    <button class="btn btn-primary" id="modal-player-open" style="width: auto; padding: 10px 20px;">+ Novo Jogador</button>
-                </div>
-                <div class="cards-grid" id="cards-container">
-                    <!-- Cards injetados via JS -->
-                </div>
-            </section>
-
-            <!-- VIEW: GESTÃO KPDV -->
-            <section id="view-kpdv" class="view">
-                <div class="action-bar">
-                    <h2>Atualização de Partidas e KPDV</h2>
-                    <button class="btn btn-primary" id="modal-kpdv-open" style="width: auto; padding: 10px 20px;">+ Registrar Partida KPDV</button>
-                </div>
-                <div class="card-box table-card">
-                    <table id="table-kpdv">
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Jogador</th>
-                                <th>Partidas (P)</th>
-                                <th>Kills (K)</th>
-                                <th>Dano (D)</th>
-                                <th>Vitórias (V)</th>
-                                <th>GER Atualizado</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- VIEW: PAINEL ADMIN -->
-            <section id="view-admin" class="view">
-                <h2>Painel de Controle e Auditoria</h2>
-                <div class="card-box" style="margin-top: 20px;">
-                    <p style="color: var(--text-muted); margin-bottom: 16px;">Gerenciamento de permissões e salvaguarda do banco de dados.</p>
-                    <button class="btn btn-secondary" id="btn-reset-season" style="max-width: 250px;">Zerar Estatísticas da Season</button>
-                </div>
-            </section>
-        </main>
+    <div class="neo-role-panel"><small>FUNÇÃO</small><strong>${esc(role)}${secondary}</strong></div>
+    <div class="neo-stat-grid">
+     <div class="neo-stat"><span class="neo-stat-icon">${statIcon.kills}</span><small>KILL</small><b>${st.kills.toLocaleString('pt-BR')}</b></div>
+     <div class="neo-stat"><span class="neo-stat-icon">${statIcon.matches}</span><small>PARTIDAS</small><b>${st.matches.toLocaleString('pt-BR')}</b></div>
+     <div class="neo-stat"><span class="neo-stat-icon">${statIcon.damage}</span><small>DANO</small><b>${st.damage.toLocaleString('pt-BR')}</b></div>
+     <div class="neo-stat"><span class="neo-stat-icon">${statIcon.assists}</span><small>ASSISTÊNCIAS</small><b>${st.assists.toLocaleString('pt-BR')}</b></div>
+     <div class="neo-stat"><span class="neo-stat-icon">${statIcon.victories}</span><small>VITÓRIAS</small><b>${st.victories.toLocaleString('pt-BR')}</b></div>
     </div>
+    <footer class="neo-card-footer"><span>MOD NEO</span><span>ELITE PLAYER</span><span>2026</span></footer>
+   </div>
+  </article>`;
+ }).join('')||'<div class="empty">Nenhum jogador cadastrado.</div>';
+}
+function toggleRolePicker(){let picker=$('mapRolePicker');picker.classList.toggle('role-picker-locked');if(!picker.classList.contains('role-picker-locked'))picker.scrollIntoView({behavior:'smooth',block:'center'})}
+function chooseMapRole(role){let current=me();if(!current||!MAP_ROLES.some(r=>r.id===role))return;if(role==='SUP'){pendingMapRole=role;openModal(`<div class="eyebrow">CONFIRMAR FUNÇÃO</div><h2>Tem certeza?</h2><p class="muted">Deseja salvar SUP como sua função?</p><div class="btnrow"><button class="btn" onclick="saveMapRole('SUP','')">SIM, CONFIRMAR</button><button class="btn secondary" onclick="closeModal()">VOLTAR</button></div>`);return}if(role==='CPT'){openModal(`<div class="eyebrow">FUNÇÃO DE CAPITÃO</div><h2>Escolha uma segunda função</h2><p class="muted">CPT exige que você selecione mais uma função.</p><div class="role-grid role-grid-secondary">${MAP_ROLES.filter(r=>r.id!=='CPT').map(r=>`<button class="role-choice" onclick="saveMapRole('CPT','${r.id}')"><span class="role-icon">${r.icon}</span><b>${r.label}</b><small>${r.desc}</small></button>`).join('')}</div>`);return}saveMapRole(role,'')}
+function saveMapRole(role,secondary){let current=me();if(!current)return;let u=users();u[current.username].map=u[current.username].map||{role:'',secondaryRole:'',stats:{kills:0,matches:0,assists:0,damage:0,victories:0}};u[current.username].map.role=role;u[current.username].map.secondaryRole=secondary||'';if(!u[current.username].map.stats)u[current.username].map.stats={kills:0,matches:0,assists:0,damage:0,victories:0};saveUsers(u);closeModal();renderMap()}
+function apStatsFor(username){let out={matches:0,wins:0,losses:0,balance:0,profit:0,loss:0};for(const r of Object.values(rooms()))for(const h of (r.history||[])){const i=(h.players||[]).indexOf(username);if(i<0)continue;const v=Number((h.shares||[])[i]||0);out.matches++;if(h.result==='WIN')out.wins++;else out.losses++;out.balance+=v;if(v>0)out.profit+=v;if(v<0)out.loss+=Math.abs(v);}return out}
+function setRankingMode(mode){rankingMode=mode;renderRanking()}
+function renderRanking(){let u=users(),arr=Object.entries(u);$('rankAPBtn').classList.toggle('active-rank',rankingMode==='ap');$('rankMAPBtn').classList.toggle('active-rank',rankingMode==='map');
+ if(rankingMode==='ap'){$('rankHead').innerHTML='<tr><th>#</th><th>JOGADOR</th><th>WIN</th><th>NO WIN</th><th>LUCRO</th><th>PREJUÍZO</th><th>KILL</th><th>PARTIDAS</th></tr>';arr=arr.map(([n,v])=>[n,v,apStatsFor(n)]).sort((a,b)=>b[2].wins-a[2].wins);$('rankRows').innerHTML=arr.map(([n,v,st],i)=>{let extra=v.apAdminStats||{};return `<tr><td>${i+1}</td><td>${esc(v.profile?.displayName||n)}</td><td>${st.wins}</td><td>${st.losses}</td><td class="green">${money(st.profit)}</td><td class="red">${money(st.loss)}</td><td>${extra.kills||0}</td><td>${st.matches}</td></tr>`}).join('')||'<tr><td colspan="8">Sem jogadores.</td></tr>';$('rankTablePanel').querySelector('.muted')?.remove();}
+ else{$('rankHead').innerHTML='<tr><th>#</th><th>JOGADOR</th><th>FUNÇÃO</th><th>SCORE</th><th>KILL</th><th>PARTIDAS</th><th>VITÓRIAS</th></tr>';arr=arr.sort((a,b)=>mapScore(mapStatsOf(b[1]))-mapScore(mapStatsOf(a[1])));$('rankRows').innerHTML=arr.map(([n,v],i)=>{let st=mapStatsOf(v),m=v.map||{};return `<tr><td>${i+1}</td><td>${esc(v.profile?.displayName||n)}</td><td>${esc(m.role||'—')}${m.secondaryRole?' + '+esc(m.secondaryRole):''}</td><td><b>${mapScore(st)}</b></td><td>${st.kills}</td><td>${st.matches}</td><td>${st.victories}</td></tr>`}).join('')||'<tr><td colspan="7">Sem jogadores.</td></tr>'}
+}
+function copyCode(id){if(navigator.clipboard?.writeText){navigator.clipboard.writeText(id).then(()=>alert('Código copiado!')).catch(()=>alert('Código da sala: '+id))}else alert('Código da sala: '+id)}
+function openModal(html){$('modalContent').innerHTML=html;$('modal').classList.add('show')}function closeModal(){$('modal').classList.remove('show')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('bio').addEventListener('input',countBio);
 
-    <!-- MODAL: CADASTRAR JOGADOR -->
-    <div id="modal-player" class="modal">
-        <div class="modal-content card-box">
-            <h3>Cadastrar Novo Atleta</h3>
-            <form id="form-player">
-                <div class="form-group">
-                    <label>Nick no Jogo</label>
-                    <input type="text" id="player-nick" placeholder="Ex: NEO ⚡ Shroud" required>
-                </div>
-                <div class="form-group">
-                    <label>Função / Posição</label>
-                    <select id="player-pos">
-                        <option value="Rush">Ruchador (RUSH)</option>
-                        <option value="Capitão">Capitão / IGL (IGL)</option>
-                        <option value="Suporte">Suporte (SUP)</option>
-                        <option value="Granadeiro">Granadeiro (GRAN)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>URL do Avatar / Foto</label>
-                    <input type="url" id="player-avatar" placeholder="https://exemplo.com/foto.jpg">
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Criar Card</button>
-                </div>
-            </form>
-        </div>
-    </div>
+function init(){window.__neoFirebase?.ready.then(()=>window.__neoFirebase.restore()).catch(e=>console.error('Firebase init',e));}
 
-    <!-- MODAL: REGISTRAR KPDV -->
-    <div id="modal-kpdv" class="modal">
-        <div class="modal-content card-box">
-            <h3>Registrar Desempenho KPDV</h3>
-            <form id="form-kpdv">
-                <div class="form-group">
-                    <label>Selecione o Atleta</label>
-                    <select id="kpdv-player-select" required></select>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Partidas (P)</label>
-                        <input type="number" id="kpdv-p" min="1" value="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Kills (K)</label>
-                        <input type="number" id="kpdv-k" min="0" value="0" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Dano Total (D)</label>
-                        <input type="number" id="kpdv-d" min="0" value="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Vitórias / Booyah (V)</label>
-                        <input type="number" id="kpdv-v" min="0" value="0" required>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Processar & Subir GER</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-    <!-- Script Consolidado da Aplicação -->
-    <script>
-        // Configuração Oficial do Firebase fornecida
-        const firebaseConfig = {
-            apiKey: "AIzaSyBmYPkg0cvlcswmBOaIr5fDPjzZSiRfYJw",
-            authDomain: "neocard-79375.firebaseapp.com",
-            projectId: "neocard-79375",
-            storageBucket: "neocard-79375.firebasestorage.app",
-            messagingSenderId: "623626301171",
-            appId: "1:623626301171:web:f80196b68060507a3ed186"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // Gerenciador de Autenticação
-        const AuthManager = {
-            init() {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                
-                document.getElementById('btn-google-login').addEventListener('click', () => {
-                    auth.signInWithPopup(provider).catch(error => this.showError(error.message));
-                });
-
-                document.getElementById('form-email-login').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const email = document.getElementById('login-email').value;
-                    const pass = document.getElementById('login-password').value;
-                    auth.signInWithEmailAndPassword(email, pass).catch(error => this.showError(error.message));
-                });
-
-                document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
-
-                auth.onAuthStateChanged(user => {
-                    if (user) {
-                        this.handleSuccess(user);
-                    } else {
-                        this.handleLogout();
-                    }
-                });
-            },
-
-            showError(msg) {
-                const errBox = document.getElementById('auth-error');
-                errBox.textContent = msg;
-                errBox.classList.remove('hidden');
-            },
-
-            handleSuccess(user) {
-                document.getElementById('auth-screen').classList.remove('active');
-                document.getElementById('app-screen').classList.add('active');
-                document.getElementById('user-display-name').textContent = user.displayName || user.email;
-
-                if (user.email.includes('admin') || user.email.includes('coach') || user.email.includes('souza')) {
-                    document.getElementById('nav-admin').style.display = 'block';
-                    document.getElementById('user-role-badge').textContent = 'Admin / Coach';
-                }
-
-                App.initModules();
-            },
-
-            handleLogout() {
-                document.getElementById('app-screen').classList.remove('active');
-                document.getElementById('auth-screen').classList.add('active');
-            }
-        };
-
-        // Lógica de Negócio e Cálculo KPDV & GER
-        const CardsEngine = {
-            calculateGer(totalK, totalD, totalV, totalP) {
-                // Base 50, nunca cai, sobe progressivamente com KPDV
-                if (totalP === 0) return 50;
-                let calculated = 50 + (totalK * 0.4) + (totalD * 0.0008) + (totalV * 2.5) - (totalP * 0.1);
-                let ger = Math.round(Math.max(50, calculated));
-                return Math.min(99, ger); // Teto máximo 99
-            },
-
-            getRarity(ger) {
-                if (ger >= 90) return { name: 'Mítico', class: 'card-mitico', badge: 'badge-mitico' };
-                if (ger >= 80) return { name: 'Lendário', class: 'card-lendario', badge: 'badge-lendario' };
-                if (ger >= 70) return { name: 'Épico', class: 'card-epico', badge: 'badge-epico' };
-                if (ger >= 60) return { name: 'Raro', class: 'card-raro', badge: 'badge-raro' };
-                return { name: 'Comum', class: 'card-comum', badge: 'badge-comum' };
-            },
-
-            sanitize(text) {
-                const el = document.createElement('div');
-                el.textContent = text;
-                return el.innerHTML;
-            }
-        };
-
-        // Operações no Firestore
-        const DBManager = {
-            async getPlayers() {
-                const snap = await db.collection('players').orderBy('ger', 'desc').get();
-                return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            },
-
-            async addPlayer(data) {
-                await db.collection('players').add({
-                    nick: CardsEngine.sanitize(data.nick),
-                    pos: data.pos,
-                    avatar: data.avatar || 'https://via.placeholder.com/150',
-                    kills: 0,
-                    matches: 0,
-                    damage: 0,
-                    wins: 0,
-                    ger: 50,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            },
-
-            async getKPDVLogs() {
-                const snap = await db.collection('kpdv_logs').orderBy('date', 'desc').limit(30).get();
-                return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            },
-
-            async addKPDVEntry(playerId, entry) {
-                const playerRef = db.collection('players').doc(playerId);
-                const playerDoc = await playerRef.get();
-                if (!playerDoc.exists) return;
-
-                const pData = playerDoc.data();
-                const newK = pData.kills + Number(entry.kills);
-                const newD = pData.damage + Number(entry.damage);
-                const newV = pData.wins + Number(entry.wins);
-                const newP = pData.matches + Number(entry.matches);
-                const newGer = CardsEngine.calculateGer(newK, newD, newV, newP);
-
-                // Garante que o GER nunca cai em relação ao anterior
-                const finalGer = Math.max(pData.ger, newGer);
-
-                await playerRef.update({
-                    kills: newK,
-                    damage: newD,
-                    wins: newV,
-                    matches: newP,
-                    ger: finalGer
-                });
-
-                await db.collection('kpdv_logs').add({
-                    date: new Date().toISOString().split('T')[0],
-                    playerNick: pData.nick,
-                    matches: Number(entry.matches),
-                    kills: Number(entry.kills),
-                    damage: Number(entry.damage),
-                    wins: Number(entry.wins),
-                    gerResult: finalGer
-                });
-            }
-        };
-
-        // Aplicação Central
-        const App = {
-            playersCache: [],
-
-            initModules() {
-                this.setupNavigation();
-                this.setupModals();
-                this.setupForms();
-                this.loadData();
-            },
-
-            setupNavigation() {
-                const navBtns = document.querySelectorAll('.nav-btn');
-                navBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        navBtns.forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        const target = btn.getAttribute('data-target');
-                        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-                        document.getElementById(target).classList.add('active');
-                    });
-                });
-            },
-
-            setupModals() {
-                document.getElementById('modal-player-open').addEventListener('click', () => {
-                    document.getElementById('modal-player').classList.add('active');
-                });
-                document.getElementById('modal-kpdv-open').addEventListener('click', () => {
-                    this.populatePlayerSelect();
-                    document.getElementById('modal-kpdv').classList.add('active');
-                });
-                document.querySelectorAll('.modal-close').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-                    });
-                });
-            },
-
-            populatePlayerSelect() {
-                const select = document.getElementById('kpdv-player-select');
-                select.innerHTML = '';
-                this.playersCache.forEach(p => {
-                    const opt = document.createElement('option');
-                    opt.value = p.id;
-                    opt.textContent = p.nick;
-                    select.appendChild(opt);
-                });
-            },
-
-            setupForms() {
-                document.getElementById('form-player').addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const data = {
-                        nick: document.getElementById('player-nick').value,
-                        pos: document.getElementById('player-pos').value,
-                        avatar: document.getElementById('player-avatar').value
-                    };
-                    await DBManager.addPlayer(data);
-                    document.getElementById('modal-player').classList.remove('active');
-                    e.target.reset();
-                    this.loadData();
-                });
-
-                document.getElementById('form-kpdv').addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const playerId = document.getElementById('kpdv-player-select').value;
-                    const entry = {
-                        matches: document.getElementById('kpdv-p').value,
-                        kills: document.getElementById('kpdv-k').value,
-                        damage: document.getElementById('kpdv-d').value,
-                        wins: document.getElementById('kpdv-v').value
-                    };
-                    await DBManager.addKPDVEntry(playerId, entry);
-                    document.getElementById('modal-kpdv').classList.remove('active');
-                    e.target.reset();
-                    this.loadData();
-                });
-            },
-
-            async loadData() {
-                this.playersCache = await DBManager.getPlayers();
-                const logs = await DBManager.getKPDVLogs();
-
-                // Renderizar Cards
-                const container = document.getElementById('cards-container');
-                container.innerHTML = '';
-
-                if (this.playersCache.length === 0) {
-                    container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align:center;">Nenhum card cadastrado ainda. Clique em "+ Novo Jogador".</p>';
-                }
-
-                this.playersCache.forEach(p => {
-                    const rarity = CardsEngine.getRarity(p.ger);
-                    const cardEl = document.createElement('div');
-                    cardEl.className = `player-card ${rarity.class}`;
-                    cardEl.innerHTML = `
-                        <div class="card-header-info">
-                            <div class="card-ger-box">
-                                <div class="card-ger">${p.ger}</div>
-                                <div class="card-pos">${p.pos}</div>
-                            </div>
-                            <span class="card-rarity-badge ${rarity.badge}">${rarity.name}</span>
-                        </div>
-                        <div class="card-avatar-container">
-                            ${p.avatar ? `<img src="${p.avatar}" alt="${p.nick}">` : '⚡'}
-                        </div>
-                        <div class="card-player-name">${p.nick}</div>
-                        <div class="card-stats-grid">
-                            <div class="card-stat-item">
-                                <div class="card-stat-label">Partidas</div>
-                                <div class="card-stat-val">${p.matches}</div>
-                            </div>
-                            <div class="card-stat-item">
-                                <div class="card-stat-label">Kills</div>
-                                <div class="card-stat-val">${p.kills}</div>
-                            </div>
-                            <div class="card-stat-item">
-                                <div class="card-stat-label">Dano</div>
-                                <div class="card-stat-val">${p.damage}</div>
-                            </div>
-                            <div class="card-stat-item">
-                                <div class="card-stat-label">Vitórias</div>
-                                <div class="card-stat-val">${p.wins}</div>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(cardEl);
-                });
-
-                // Renderizar Tabela KPDV Logs
-                const tbody = document.querySelector('#table-kpdv tbody');
-                tbody.innerHTML = '';
-                logs.forEach(l => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${l.date}</td>
-                        <td><strong>${l.playerNick}</strong></td>
-                        <td>${l.matches}</td>
-                        <td>${l.kills}</td>
-                        <td>${l.damage}</td>
-                        <td>${l.wins}</td>
-                        <td><span class="highlight" style="font-weight:bold;">${l.gerResult}</span></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', () => AuthManager.init());
-    </script>
+function openAdminEntry(){if(!_authUser||_authUser.uid!==ADMIN_UID){alert('Acesso restrito ao administrador autorizado.');return;}showAdminPanel()}
+function closeAdminLogin(){$('adminLoginPanel').classList.add('hidden');$('rankTablePanel').classList.remove('hidden')}
+function verifyAdminCode(){openAdminEntry()}
+function showAdminPanel(){$('rankTablePanel').classList.add('hidden');$('adminPanel').classList.remove('hidden');let arr=Object.entries(users());$('adminPlayer').innerHTML=arr.map(([n,v])=>`<option value="${esc(n)}">${esc(v.profile?.displayName||n)} (@${esc(n)})</option>`).join('');loadAdminPlayer()}
+function closeAdminPanel(){$('adminPanel').classList.add('hidden');$('rankTablePanel').classList.remove('hidden')}
+function loadAdminPlayer(){
+ let n=$('adminPlayer').value,v=users()[n];if(!v)return;
+ let ap=v.apAdminStats||{},m=mapStatsOf(v);
+ $('adminFields').innerHTML=`<h3>MOD AP <small class="muted">(somente KILLS manuais)</small></h3>
+ <div class="admin-grid"><div class="field"><label>KILLS</label><input id="admApKills" type="number" min="0" step="1" value="${ap.kills||0}"></div></div>
+ <p class="notice">PARTIDAS, WIN, NO WIN, lucro e prejuízo são calculados a partir do histórico das salas.</p>
+ <h3>MOD MAP</h3><div class="admin-grid">${[['kills','KILL',m.kills],['matches','PARTIDAS',m.matches],['assists','ASSISTÊNCIAS',m.assists],['damage','DANO',m.damage],['victories','VITÓRIAS',m.victories]].map(([id,label,val])=>`<div class="field"><label>${label}</label><input id="admMap_${id}" type="number" min="0" step="1" value="${val}"></div>`).join('')}</div>`;
+ $('adminMessage').textContent='';
+}
+function saveAdminStats(){
+ let n=$('adminPlayer').value;if(!n)return;
+ let fields=['admApKills','admMap_kills','admMap_matches','admMap_assists','admMap_damage','admMap_victories'];
+ let vals=fields.map(id=>Number($(id)?.value));
+ if(vals.some(v=>!Number.isSafeInteger(v)||v<0))return $('adminMessage').textContent='Use somente números inteiros iguais ou maiores que zero.';
+ let u=users(),v=u[n];v.apAdminStats={kills:vals[0]};
+ v.map=v.map||{role:'',secondaryRole:'',stats:{}};
+ v.map.stats={kills:vals[1],matches:vals[2],assists:vals[3],damage:vals[4],victories:vals[5]};
+ saveUsers(u);$('adminMessage').textContent='Estatísticas salvas!';renderRanking();showAdminPanel();$('adminMessage').textContent='Estatísticas salvas!';
+}
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, onSnapshot, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyBcYdPHT_jug7Av0gY9ZuulVCmCD_lVNOI",authDomain:"mod-neo.firebaseapp.com",projectId:"mod-neo",storageBucket:"mod-neo.firebasestorage.app",messagingSenderId:"219596296534",appId:"1:219596296534:web:b19d3e7686ef9089c0c6f7"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const ADMIN_UID="2Aq4aFE9CBZGqLX9aG4BylFDe1v2";let currentNick="",userUnsub=null,roomUnsub=null,creatingAccount=false;
+const alias=n=>`${n}@mod-neo.firebaseapp.com`;
+function err(code){const e=new Error(code);e.code=code;return e;}
+async function register(n,p){
+ creatingAccount=true;let cred;try{cred=await createUserWithEmailAndPassword(auth,alias(n),p);
+ await runTransaction(db,async tx=>{const nickRef=doc(db,"usernames",n),userRef=doc(db,"users",cred.user.uid);const nick=await tx.get(nickRef);if(nick.exists())throw err("nickname/taken");tx.set(nickRef,{uid:cred.user.uid,username:n,createdAt:serverTimestamp()});tx.set(userRef,{uid:cred.user.uid,username:n,profile:{displayName:n,bio:"",avatar:""},stats:{matches:0,wins:0,losses:0,balance:0,profit:0,loss:0},apAdminStats:{kills:0},map:{role:"",secondaryRole:"",stats:{kills:0,matches:0,assists:0,damage:0,victories:0}},createdAt:serverTimestamp()});});creatingAccount=false;await activate(cred.user);}catch(e){creatingAccount=false;if(cred?.user){try{await deleteUser(cred.user)}catch{}}throw e;}
+}
+async function login(n,p){if(!/^[a-z0-9_]{3,18}$/.test(n))throw err("auth/invalid-credential");const user=await signInWithEmailAndPassword(auth,alias(n),p);const profile=await getDoc(doc(db,"users",user.user.uid));if(!profile.exists()||profile.data().username!==n){await signOut(auth);throw err("auth/invalid-credential");}}
+async function activate(user){const q=await getDoc(doc(db,"users",user.uid));if(!q.exists())throw err("profile/missing");const nick=q.data().username;subscribe(user.uid,nick);window._myUsername=nick;setTimeout(()=>window.openApp?.(),0);}
+function stopListeners(){if(userUnsub)userUnsub();if(roomUnsub)roomUnsub();userUnsub=roomUnsub=null;}
+function subscribe(uid,nick){stopListeners();currentNick=nick;window._myUsername=nick;
+ userUnsub=onSnapshot(collection(db,"users"),snap=>{const all={};snap.forEach(d=>{const x=d.data();if(x.username)all[x.username]={...x};});window._usersCache=all;window._userSnapshot=JSON.parse(JSON.stringify(all));if(window.me?.()){if(document.getElementById("app").classList.contains("hidden"))window.openApp?.();else{window.renderRanking?.();window.renderMap?.();window.renderMyRooms?.();}}});
+ roomUnsub=onSnapshot(collection(db,"rooms"),snap=>{const all={};snap.forEach(d=>all[d.id]=d.data());window._roomsCache=all;window._roomSnapshot=JSON.parse(JSON.stringify(all));if(window.me?.()&&!document.getElementById("app").classList.contains("hidden")){window.renderMyRooms?.();window.renderRanking?.();}});
+}
+const ready=new Promise((resolve,reject)=>{let first=true;onAuthStateChanged(auth,async user=>{window._authUser=user;if(!user){stopListeners();window._myUsername="";if(!first){document.getElementById("app")?.classList.add("hidden");document.getElementById("auth")?.classList.remove("hidden");}first=false;resolve();return;}if(creatingAccount)return;try{await activate(user);first=false;resolve();}catch(e){console.error(e);await signOut(auth);reject(e);}});});
+async function restore(){await ready;}
+async function saveUser(n,record,isSelf,isAdmin){const uid=isSelf?auth.currentUser.uid:(await getDoc(doc(db,"usernames",n))).data()?.uid;if(!uid)return;const refDoc=doc(db,"users",uid);const payload={...record,uid,username:n,updatedAt:serverTimestamp()};await setDoc(refDoc,payload,{merge:true});}
+async function saveRoom(id,record){await setDoc(doc(db,"rooms",id),{...record,updatedAt:serverTimestamp()});}
+async function deleteRoom(id){await deleteDoc(doc(db,"rooms",id));}
+window.__neoFirebase={ready,register,login,restore,saveUser,saveRoom,deleteRoom,logout:()=>signOut(auth)};
+window.init?.();
+window.addEventListener("DOMContentLoaded",()=>{});
+</script>
 </body>
 </html>
-
